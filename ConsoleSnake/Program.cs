@@ -6,10 +6,14 @@ namespace ConsoleSnake
     {
         const ConsoleColor BACKGROUND_COLOUR_1 = ConsoleColor.Green;
         const ConsoleColor BACKGROUND_COLOUR_2 = ConsoleColor.DarkGreen;
+        const ConsoleColor SNAKE_HEAD_COLOUR = ConsoleColor.DarkBlue;
+        const ConsoleColor SNAKE_BODY_COLOUR = ConsoleColor.Blue;
 
         static void Main(string[] args)
         {
+            Console.OutputEncoding = System.Text.Encoding.UTF8;
             Start();
+            Console.BackgroundColor = ConsoleColor.Black;
         }
 
         static void Start()
@@ -20,7 +24,7 @@ namespace ConsoleSnake
             Size gridDimensions = new Size(12,12);
 
             List<Point> snakeCoords = new();
-            List<byte> moveList = new();
+            List<Direction> moveList = new();
             Point fruitCoords;
             System.Timers.Timer snakeMoveTimer = new()
             {
@@ -34,8 +38,8 @@ namespace ConsoleSnake
             string FaceBottom = "    ";
             
 
-            moveList.Add(1);
-            moveList.Add(1);
+            moveList.Add(Direction.Right);
+            moveList.Add(Direction.Right);
             snakeCoords.Add(new Point(0, gridDimensions.Height / 2 - 1));
             snakeCoords.Add(new Point(1, gridDimensions.Height / 2 - 1));
             snakeCoords.Add(new Point(2, gridDimensions.Height / 2 - 1));
@@ -44,10 +48,12 @@ namespace ConsoleSnake
 
             snakeMoveTimer.Elapsed += (object? sender, System.Timers.ElapsedEventArgs e) => SnakeMove();
 
-            WriteInitialGrid(gridDimensions);
+            OutputInitialGrid(gridDimensions);
+            OutputInitialSnake(snakeCoords, ref FaceTop, ref FaceBottom);
+            UpdateGrid(moveList, snakeCoords, ref FaceTop, ref FaceBottom);
         }
 
-        static void WriteInitialGrid(Size gridDimensions)
+        static void OutputInitialGrid(Size gridDimensions)
         {
             for (int i = 0; i < gridDimensions.Height; i++)
             {
@@ -66,6 +72,86 @@ namespace ConsoleSnake
                 }
             }
         }
+        
+        static void OutputInitialSnake(List<Point> snakeCoords, ref string faceTop, ref string faceBottom)
+        {
+            UpdateFaceValues(Direction.Right, ref faceTop, ref faceBottom);
+            Console.SetCursorPosition(snakeCoords.Last().X * 4, snakeCoords.Last().Y * 2);
+            Console.BackgroundColor = SNAKE_HEAD_COLOUR;
+            Console.WriteLine(faceTop);
+            Console.SetCursorPosition(snakeCoords.Last().X * 4, snakeCoords.Last().Y * 2 + 1);
+            Console.BackgroundColor = SNAKE_HEAD_COLOUR;
+            Console.WriteLine(faceBottom);
+
+
+            Console.SetCursorPosition(snakeCoords[snakeCoords.Count - 3].X * 4, snakeCoords[snakeCoords.Count - 3].Y * 2);
+            Console.BackgroundColor = SNAKE_BODY_COLOUR;
+            Console.WriteLine("    ");
+            Console.SetCursorPosition(snakeCoords[snakeCoords.Count - 3].X * 4, snakeCoords[snakeCoords.Count - 3].Y * 2 + 1);
+            Console.BackgroundColor = SNAKE_BODY_COLOUR;
+            Console.WriteLine("    ");
+
+            Console.SetCursorPosition(snakeCoords[snakeCoords.Count - 2].X * 4, snakeCoords[snakeCoords.Count - 2].Y * 2);
+            Console.BackgroundColor = SNAKE_BODY_COLOUR;
+            Console.WriteLine("    ");
+            Console.SetCursorPosition(snakeCoords[snakeCoords.Count - 2].X * 4, snakeCoords[snakeCoords.Count - 2].Y * 2 + 1);
+            Console.BackgroundColor = SNAKE_BODY_COLOUR;
+            Console.WriteLine("    ");
+        }
+
+        static void UpdateGrid(List<Direction> moveList, List<Point> snakeCoords, ref string faceTop, ref string faceBottom)
+        {
+            UpdateFaceValues(moveList.Last(), ref faceTop, ref faceBottom);
+
+            Console.SetCursorPosition(snakeCoords.Last().X * 4, snakeCoords.Last().Y * 2);
+            Console.BackgroundColor = SNAKE_HEAD_COLOUR;
+            Console.WriteLine(faceTop);
+            Console.SetCursorPosition(snakeCoords.Last().X * 4, snakeCoords.Last().Y * 2 + 1);
+            Console.BackgroundColor = SNAKE_HEAD_COLOUR;
+            Console.WriteLine(faceBottom);
+
+            Console.SetCursorPosition(snakeCoords[snakeCoords.Count - 2].X * 4, snakeCoords[snakeCoords.Count - 2].Y * 2);
+            Console.BackgroundColor = SNAKE_BODY_COLOUR;
+            Console.WriteLine("    ");
+            Console.SetCursorPosition(snakeCoords[snakeCoords.Count - 2].X * 4, snakeCoords[snakeCoords.Count - 2].Y * 2 + 1);
+            Console.BackgroundColor = SNAKE_BODY_COLOUR;
+            Console.WriteLine("    ");
+
+
+        }
+
+        static void UpdateFaceValues(Direction lastMove, ref string faceTop, ref string faceBottom)
+        {
+            switch (lastMove)
+            {
+                case Direction.Up:
+                    if (faceTop == "    ")
+                    {
+                        faceTop = faceBottom;
+                        faceBottom = "    ";
+                    }
+                    break;
+                case Direction.Right:
+                    if (faceBottom != "    ")
+                        faceBottom = " ಠ_ಠ";
+                    else
+                        faceTop = " ಠ_ಠ";
+                    break;
+                case Direction.Down:
+                    if (faceBottom == "    ")
+                    {
+                        faceBottom = faceTop;
+                        faceTop = "    ";
+                    }
+                    break;
+                case Direction.Left:
+                    if (faceBottom != "    ")
+                        faceBottom = "ಠ_ಠ ";
+                    else
+                        faceTop = "ಠ_ಠ ";
+                    break;
+            }
+        } 
 
         static void SnakeMove()
         {
