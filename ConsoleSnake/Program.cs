@@ -12,7 +12,11 @@ namespace ConsoleSnake
 		static void Main(string[] args)
 		{
 			Console.OutputEncoding = System.Text.Encoding.UTF8;
-			Start();
+			//Start();
+			Console.ReadKey(true);
+			Grid g = new(new Size(12,12), new Point(0,0));
+			g.OutputGrid();
+
 			Console.BackgroundColor = ConsoleColor.Black;
 		}
 
@@ -47,7 +51,7 @@ namespace ConsoleSnake
 			fruitCoords = newFruitCoords(gridDimensions);
 
 			Point p;
-			snakeMoveTimer.Elapsed += (object? sender, System.Timers.ElapsedEventArgs e) => p = SnakeMove(moveList, direction);
+			//snakeMoveTimer.Elapsed += (object? sender, System.Timers.ElapsedEventArgs e) => p = SnakeMove(moveList, direction);
 
 			OutputInitialGrid(gridDimensions);
 			OutputInitialSnake(snakeCoords, ref FaceTop, ref FaceBottom);
