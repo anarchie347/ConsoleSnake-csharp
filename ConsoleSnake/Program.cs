@@ -16,6 +16,13 @@ namespace ConsoleSnake
 			Console.ReadKey(true);
 			Grid g = new(new Size(12,12), new Point(0,0));
 			g.OutputGrid();
+			List<Point> p = new()
+			{
+				new Point(0, g.Dimensions.Height / 2 - 1),
+				new Point(1, g.Dimensions.Height / 2 - 1),
+				new Point(2, g.Dimensions.Height / 2 - 1)
+			};
+			g.AddSnake(new Snake(p, 100));
 
 			Console.BackgroundColor = ConsoleColor.Black;
 		}
