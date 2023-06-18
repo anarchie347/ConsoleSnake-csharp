@@ -36,6 +36,7 @@ namespace ConsoleSnake
 
 
         private System.Timers.Timer timer;
+        private bool GrowOnNextTurn;
 
         public Snake(List<Point> initalSnake, int moveDelay)
         {
@@ -70,10 +71,20 @@ namespace ConsoleSnake
             return true;
         }
 
+        public void Grow()
+        {
+            GrowOnNextTurn = true;
+        }
+
         private void SnakeTimerTick(object? sender, ElapsedEventArgs e)
         {
-            BehindSnakeCoords = coords[0];
-            coords.RemoveAt(0);
+            if (!GrowOnNextTurn)
+            { 
+                BehindSnakeCoords = coords[0];
+                coords.RemoveAt(0);
+            }
+            GrowOnNextTurn = false;
+            
 
             Point currentHeadPos = coords.Last();
             switch (Direction)
