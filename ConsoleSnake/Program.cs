@@ -17,48 +17,26 @@ namespace ConsoleSnake
 				Console.BufferWidth = 50;
 			if (Console.BufferHeight < 50)
 				Console.BufferHeight = 50;
-            //Start();
-            ClearConsoleSpace(Grid.SQUARE_HEIGHT * 12 + 1);
-            Grid g = new(new Size(12,12), new Point(Console.CursorLeft, Console.CursorTop));
-			
-			g.OutputGrid();
-			List<Point> p = new()
-			{
-				new Point(0, g.Dimensions.Height / 2 - 1),
-				new Point(1, g.Dimensions.Height / 2 - 1),
-				new Point(2, g.Dimensions.Height / 2 - 1)
-			};
-			g.AddSnake(new Snake(p, 150));
-			while (true)
-			{
-				if (Console.KeyAvailable)
-				{
-					switch (Console.ReadKey(true).Key)
-					{
-						case ConsoleKey.Escape:
-							Exit(0, g.StartPoint.Y + (Grid.SQUARE_HEIGHT * g.Dimensions.Height), false);
-							break;
-						case ConsoleKey.UpArrow:
-							if (g.Snake != null)
-								g.Snake.ChangeDirection(Direction.Up);
-							break;
-						case ConsoleKey.RightArrow:
-                            if (g.Snake != null)
-                                g.Snake.ChangeDirection(Direction.Right);
-							break;
-						case ConsoleKey.DownArrow:
-                            if (g.Snake != null)
-                                g.Snake.ChangeDirection(Direction.Down);
-							break;
-						case ConsoleKey.LeftArrow:
-                            if (g.Snake != null)
-                                g.Snake.ChangeDirection(Direction.Left);
-                            break;
-					}
-				}
-			}
-			Console.BackgroundColor = ConsoleColor.Black;
+
+			Start();
 		}
+
+		private static void Start()
+		{
+            ClearConsoleSpace(Grid.SQUARE_HEIGHT * 12 + 1);
+            Grid grid = new(new Size(12, 12), new Point(Console.CursorLeft, Console.CursorTop));
+
+            List<Point> initialSnakeCoords = new()
+            {
+                new Point(0, grid.Dimensions.Height / 2 - 1),
+                new Point(1, grid.Dimensions.Height / 2 - 1),
+                new Point(2, grid.Dimensions.Height / 2 - 1)
+            };
+            grid.AddSnake(new Snake(initialSnakeCoords, 150));
+
+			Game game = new(grid);
+			game.Start();
+        }
 
 		public static void ClearConsoleSpace(int height)
 		{
@@ -86,7 +64,7 @@ namespace ConsoleSnake
 			Environment.Exit(0);
 		}
 
-		static void Start()
+		static void StartOld()
 		{
 			Console.CursorVisible = false;
 
@@ -117,7 +95,7 @@ namespace ConsoleSnake
 			fruitCoords = newFruitCoords(gridDimensions);
 
 			Point p;
-			//snakeMoveTimer.Elapsed += (object? sender, System.Timers.ElapsedEventArgs e) => p = SnakeMove(moveList, direction);
+			//snakeMoveTimer.Elapsed += (object? sender, System.Timers.ElapsedEventArgs e) => initialSnakeCoords = SnakeMove(moveList, direction);
 
 			OutputInitialGrid(gridDimensions);
 			OutputInitialSnake(snakeCoords, ref FaceTop, ref FaceBottom);
