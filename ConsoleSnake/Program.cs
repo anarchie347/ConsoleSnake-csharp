@@ -12,9 +12,9 @@ namespace ConsoleSnake
 		static void Main(string[] args)
 		{
 			Console.OutputEncoding = System.Text.Encoding.UTF8;
+			Console.CursorVisible = false;
 			//Start();
-			Console.ReadKey(true);
-			Grid g = new(new Size(12,12), new Point(0,0));
+			Grid g = new(new Size(12,12), new Point(5,2));
 			g.OutputGrid();
 			List<Point> p = new()
 			{

@@ -75,6 +75,14 @@ namespace ConsoleSnake
         {
             GrowOnNextTurn = true;
         }
+        public void Freeze()
+        {
+            timer.Stop();
+        }
+        public void Unfreeze()
+        {
+            timer.Start();
+        }
 
         private void SnakeTimerTick(object? sender, ElapsedEventArgs e)
         {
