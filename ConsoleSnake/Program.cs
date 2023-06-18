@@ -22,8 +22,35 @@ namespace ConsoleSnake
 				new Point(1, g.Dimensions.Height / 2 - 1),
 				new Point(2, g.Dimensions.Height / 2 - 1)
 			};
-			g.AddSnake(new Snake(p, 100));
-
+			g.AddSnake(new Snake(p, 300));
+			while (true)
+			{
+				if (Console.KeyAvailable)
+				{
+					switch (Console.ReadKey(true).Key)
+					{
+						case ConsoleKey.Escape:
+							Environment.Exit(0);
+							break;
+						case ConsoleKey.UpArrow:
+							if (g.Snake != null)
+								g.Snake.ChangeDirection(Direction.Up);
+							break;
+						case ConsoleKey.RightArrow:
+                            if (g.Snake != null)
+                                g.Snake.ChangeDirection(Direction.Right);
+							break;
+						case ConsoleKey.DownArrow:
+                            if (g.Snake != null)
+                                g.Snake.ChangeDirection(Direction.Down);
+							break;
+						case ConsoleKey.LeftArrow:
+                            if (g.Snake != null)
+                                g.Snake.ChangeDirection(Direction.Left);
+                            break;
+					}
+				}
+			}
 			Console.BackgroundColor = ConsoleColor.Black;
 		}
 
@@ -220,5 +247,6 @@ namespace ConsoleSnake
 	}
 
 	internal enum Direction { Up, Right, Down, Left}
+	internal enum Corner { TopRight, BottomRight, BottomLeft, TopLeft}
 
 }

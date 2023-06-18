@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Drawing;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -35,10 +37,7 @@ namespace ConsoleSnake
                 {
                     for (int k = 0; k < Dimensions.Width; k++)
                     {
-                        if (i % 2 - k % 2 == 0)
-                            Console.BackgroundColor = BACKGROUND_COLOUR_1;
-                        else
-                            Console.BackgroundColor = BACKGROUND_COLOUR_2;
+                        Console.BackgroundColor = (i % 2 == k % 2) ? BACKGROUND_COLOUR_1 : BACKGROUND_COLOUR_2;
                         Console.Write(SQUARE_LINE_TEXT);
                     }
                     Console.WriteLine();
@@ -49,33 +48,60 @@ namespace ConsoleSnake
         public void AddSnake(Snake snake)
         {
             this.Snake = snake;
-            Snake.SnakeMove += (object? sender, SnakeMovedEventArgs e) => UpdateSnake(e.Coords, e.BehindSnake);
+            Snake.SnakeMove += (object? sender, EventArgs e) => UpdateSnake((sender as Snake).Coords, (sender as Snake).BehindSnakeCoords, (sender as Snake).FacePosition);
         }
 
-        private void UpdateSnake(List<Point> snakeCoords, Point behindSnakeCoords)
+        private void UpdateSnake(ReadOnlyCollection<Point> snakeCoords, Point behindSnakeCoords, Corner facePosition)
         {
             //[0] in list is tail, [count - 1] is head
             Point editPoint = behindSnakeCoords;
-            Console.BackgroundColor = (editPoint.X % 2 + editPoint.Y % 2 == 0) ? BACKGROUND_COLOUR_1 : BACKGROUND_COLOUR_2;
+            Console.BackgroundColor = (editPoint.X % 2 == editPoint.Y % 2) ? BACKGROUND_COLOUR_1 : BACKGROUND_COLOUR_2;
             for (int i = 0; i < SQUARE_HEIGHT; i++)
             {
-                Console.SetCursorPosition(editPoint.X + (editPoint.X * SQUARE_WIDTH), editPoint.Y + (editPoint.Y * SQUARE_HEIGHT + i));
+                Console.SetCursorPosition(editPoint.X * SQUARE_WIDTH, editPoint.Y * SQUARE_HEIGHT + i);
                 Console.WriteLine(SQUARE_LINE_TEXT);
             }
 
             Console.BackgroundColor = Snake.SNAKE_HEAD_COLOUR;
             editPoint = snakeCoords.Last();
-            for (int i = 0; i < SQUARE_HEIGHT; i++)
+            Console.SetCursorPosition(editPoint.X * SQUARE_WIDTH, editPoint.Y * SQUARE_HEIGHT);
+            if (SQUARE_HEIGHT > 1)
             {
-                Console.SetCursorPosition(StartPoint.X + (editPoint.X * SQUARE_WIDTH), StartPoint.Y + (editPoint.Y * SQUARE_HEIGHT + i));
-                Console.WriteLine(SQUARE_LINE_TEXT);
+
+                if (facePosition.IsOnSide(Direction.Up))
+                    if (facePosition.IsOnSide(Direction.Left))
+                        Console.Write(Snake.FACE_TEXT.PadRight(SQUARE_WIDTH));
+                    else
+                        Console.Write(Snake.FACE_TEXT.PadLeft(SQUARE_WIDTH));
+                else
+                    Console.Write(SQUARE_LINE_TEXT);
+                for (int i = 1; i < SQUARE_HEIGHT - 1; i++)
+                {
+                    Console.SetCursorPosition(editPoint.X * SQUARE_WIDTH, editPoint.Y * SQUARE_HEIGHT + i);
+                    Console.WriteLine(SQUARE_LINE_TEXT);
+                }
+                Console.SetCursorPosition(editPoint.X * SQUARE_WIDTH, (editPoint.Y + 1) * SQUARE_HEIGHT - 1);
+                if (facePosition.IsOnSide(Direction.Down))
+                    if (facePosition.IsOnSide(Direction.Left))
+                        Console.Write(Snake.FACE_TEXT.PadRight(SQUARE_WIDTH));
+                    else
+                        Console.Write(Snake.FACE_TEXT.PadLeft(SQUARE_WIDTH));
+                else
+                    Console.Write(SQUARE_LINE_TEXT);
+            }
+            else
+            {
+                if (facePosition.IsOnSide(Direction.Left))
+                    Console.Write(Snake.FACE_TEXT.PadRight(SQUARE_WIDTH));
+                else
+                    Console.Write(Snake.FACE_TEXT.PadLeft(SQUARE_WIDTH));
             }
 
             Console.BackgroundColor = Snake.SNAKE_BODY_COLOUR;
             editPoint = snakeCoords[snakeCoords.Count - 2];
             for (int i = 0; i < SQUARE_HEIGHT; i++)
             {
-                Console.SetCursorPosition(StartPoint.X + (editPoint.X * SQUARE_WIDTH), StartPoint.Y + (editPoint.Y * SQUARE_HEIGHT + i));
+                Console.SetCursorPosition(editPoint.X * SQUARE_WIDTH, editPoint.Y * SQUARE_HEIGHT + i);
                 Console.WriteLine(SQUARE_LINE_TEXT);
             }
         }
