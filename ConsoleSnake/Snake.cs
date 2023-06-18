@@ -63,7 +63,7 @@ namespace ConsoleSnake
 
         public bool ChangeDirection(Direction newDirection)
         {
-            if ((int)Direction == ((int)newDirection + 2) % 4)
+            if ((int)MoveList.Last() == ((int)newDirection + 2) % 4)
             {
                 return false;
             }
@@ -127,7 +127,7 @@ namespace ConsoleSnake
                     break;
             }
 
-
+            moveList.Add(Direction);
             SnakeMove?.Invoke(this, EventArgs.Empty);
         }
     }
