@@ -21,15 +21,16 @@ namespace ConsoleSnake
         public Size Dimensions { get; init; }
         public Point StartPoint { get; init; }
         public Snake? Snake { get; private set; }
+        public Score Score { get; private set; }
 
-        private Fruit fruit;
+        private readonly Fruit Fruit;
 
-        public Grid() { }
         public Grid(Size dimensions, Point startPoint)
         {
             Dimensions = dimensions;
             StartPoint = startPoint;
-            fruit = new Fruit(dimensions);
+            Fruit = new Fruit(dimensions);
+            Score = new Score(false, new Point(startPoint.X + (dimensions.Width * SQUARE_WIDTH) + (2 * SQUARE_WIDTH), startPoint.Y + (2 * SQUARE_HEIGHT)));
         }
 
         public void OutputGrid()
@@ -55,8 +56,8 @@ namespace ConsoleSnake
             snake.Freeze();
             Console.ReadKey(true);
             snake.Unfreeze();
-            fruit.NewLocation(snake.Coords);
-            fruit.OutputFruit(new Size(SQUARE_WIDTH, SQUARE_HEIGHT), StartPoint);
+            Fruit.NewLocation(snake.Coords);
+            Fruit.OutputFruit(new Size(SQUARE_WIDTH, SQUARE_HEIGHT), StartPoint);
             Snake.SnakeMove += (object? sender, EventArgs e) =>
             {
                 CheckIfSnakeHasEatenFruit(sender as Snake);
@@ -69,11 +70,12 @@ namespace ConsoleSnake
 
         private void CheckIfSnakeHasEatenFruit(Snake snake)
         {
-            if (snake.Coords.Last() == fruit.Location)
+            if (snake.Coords.Last() == Fruit.Location)
             {
                 snake.Grow();
-                fruit.NewLocation(snake.Coords);
-                fruit.OutputFruit(new Size(SQUARE_WIDTH, SQUARE_HEIGHT), StartPoint);
+                Fruit.NewLocation(snake.Coords);
+                Fruit.OutputFruit(new Size(SQUARE_WIDTH, SQUARE_HEIGHT), StartPoint);
+                Score.Value++;
             }
 
         }

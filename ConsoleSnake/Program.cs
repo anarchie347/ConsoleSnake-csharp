@@ -13,6 +13,10 @@ namespace ConsoleSnake
 		{
 			Console.OutputEncoding = System.Text.Encoding.UTF8;
 			Console.CursorVisible = false;
+			if (Console.BufferWidth < 50)
+				Console.BufferWidth = 50;
+			if (Console.BufferHeight < 50)
+				Console.BufferHeight = 50;
             //Start();
             ClearConsoleSpace(Grid.SQUARE_HEIGHT * 12 + 1);
             Grid g = new(new Size(12,12), new Point(Console.CursorLeft, Console.CursorTop));
@@ -56,7 +60,7 @@ namespace ConsoleSnake
 			Console.BackgroundColor = ConsoleColor.Black;
 		}
 
-		private static void ClearConsoleSpace(int height)
+		public static void ClearConsoleSpace(int height)
 		{
 			int diff = Console.CursorTop + height - Console.BufferHeight;
 			if (diff > 0)
