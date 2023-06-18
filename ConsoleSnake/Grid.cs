@@ -56,7 +56,10 @@ namespace ConsoleSnake
             Snake.SnakeMove += (object? sender, EventArgs e) =>
             {
                 CheckIfSnakeHasEatenFruit(sender as Snake);
-                UpdateSnake((sender as Snake).Coords, (sender as Snake).BehindSnakeCoords, (sender as Snake).FacePosition);
+                if (CheckIfSnakeHasDied((sender as Snake).Coords.Last()))
+                    throw new Exception("you died");
+                else
+                    UpdateSnake((sender as Snake).Coords, (sender as Snake).BehindSnakeCoords, (sender as Snake).FacePosition);
             };
         }
 
@@ -69,6 +72,10 @@ namespace ConsoleSnake
                 fruit.OutputFruit(new Size(SQUARE_WIDTH, SQUARE_HEIGHT), StartPoint);
             }
 
+        }
+        private bool CheckIfSnakeHasDied(Point head)
+        {
+            return head.X < 0 || head.X >= Dimensions.Width || head.Y < 0 || head.Y >= Dimensions.Height;
         }
 
         private void UpdateSnake(IEnumerable<Point> snakeCoords, Point behindSnakeCoords, Corner facePosition)
