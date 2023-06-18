@@ -1,6 +1,6 @@
 # ConsoleSnake
 
-🐍 Snake mode in the console
+🐍 Snake game in the console
 
 
 This is still in development
