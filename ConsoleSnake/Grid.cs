@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System.Diagnostics;
+using System.Drawing;
 
 namespace ConsoleSnake
 {
@@ -58,7 +59,7 @@ namespace ConsoleSnake
             {
                 CheckIfSnakeHasEatenFruit(sender as Snake);
                 if (CheckIfSnakeHasDied((sender as Snake).Coords.Last()))
-                    Program.Exit(0, this.StartPoint.Y + (Grid.SQUARE_HEIGHT * this.Dimensions.Height), true);
+                    Program.Exit(0, this.StartPoint.Y + (Grid.SQUARE_HEIGHT * this.Dimensions.Height), true, Snake);
                 else
                     UpdateSnake((sender as Snake).Coords, (sender as Snake).BehindSnakeCoords, (sender as Snake).FacePosition);
             };
@@ -82,7 +83,12 @@ namespace ConsoleSnake
         }
         private bool CheckIfSnakeHasDied(Point head)
         {
-            return head.X < 0 || head.X >= Dimensions.Width || head.Y < 0 || head.Y >= Dimensions.Height;
+            return head.X < 0 || head.X >= Dimensions.Width || head.Y < 0 || head.Y >= Dimensions.Height || CheckSnakeSelfCollisions(head);
+        }
+
+        private bool CheckSnakeSelfCollisions(Point head)
+        {
+            return Snake.Coords.IndexOf(head) < Snake.Coords.Count - 1;
         }
 
         private void UpdateSnake(IEnumerable<Point> snakeCoords, Point behindSnakeCoords, Corner facePosition)
@@ -139,6 +145,8 @@ namespace ConsoleSnake
                 Console.WriteLine(SQUARE_LINE_TEXT);
             }
         }
+
+        
 
         private void RenderEntireSnake(IEnumerable<Point> snakeCoords, Corner facePosition)
         {

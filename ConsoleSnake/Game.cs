@@ -33,7 +33,7 @@ namespace ConsoleSnake
                     switch (Console.ReadKey(true).Key)
                     {
                         case ConsoleKey.Escape:
-                            Program.Exit(0, Grid.StartPoint.Y + (Grid.SQUARE_HEIGHT * Grid.Dimensions.Height), false);
+                            Program.Exit(0, Grid.StartPoint.Y + (Grid.SQUARE_HEIGHT * Grid.Dimensions.Height), false, Grid.Snake);
                             break;
                         case ConsoleKey.UpArrow:
                             if (Grid.Snake != null)

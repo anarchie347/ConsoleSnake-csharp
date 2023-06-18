@@ -48,8 +48,14 @@ namespace ConsoleSnake
             }
 		}
 
-		public static void Exit(int endX, int endY, bool clear)
+		public static void Exit(int endX, int endY, bool clear, Snake? snake = null)
 		{
+			if (snake != null)
+			{
+                snake.Freeze();
+				Console.ReadLine();
+            }
+				
 			Console.ResetColor();
 			if (clear)
 			{
