@@ -22,7 +22,7 @@ namespace ConsoleSnake
 				new Point(1, g.Dimensions.Height / 2 - 1),
 				new Point(2, g.Dimensions.Height / 2 - 1)
 			};
-			g.AddSnake(new Snake(p, 300));
+			g.AddSnake(new Snake(p, 100));
 			while (true)
 			{
 				if (Console.KeyAvailable)
