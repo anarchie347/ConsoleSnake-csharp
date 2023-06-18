@@ -61,7 +61,7 @@ namespace ConsoleSnake
             {
                 CheckIfSnakeHasEatenFruit(sender as Snake);
                 if (CheckIfSnakeHasDied((sender as Snake).Coords.Last()))
-                    throw new Exception("you died");
+                    Program.Exit(0, this.StartPoint.Y + (Grid.SQUARE_HEIGHT * this.Dimensions.Height), true);
                 else
                     UpdateSnake((sender as Snake).Coords, (sender as Snake).BehindSnakeCoords, (sender as Snake).FacePosition);
             };

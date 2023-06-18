@@ -13,8 +13,10 @@ namespace ConsoleSnake
 		{
 			Console.OutputEncoding = System.Text.Encoding.UTF8;
 			Console.CursorVisible = false;
-			//Start();
-			Grid g = new(new Size(12,12), new Point(5,2));
+            //Start();
+            ClearConsoleSpace(Grid.SQUARE_HEIGHT * 12 + 1);
+            Grid g = new(new Size(12,12), new Point(Console.CursorLeft, Console.CursorTop));
+			
 			g.OutputGrid();
 			List<Point> p = new()
 			{
@@ -30,7 +32,7 @@ namespace ConsoleSnake
 					switch (Console.ReadKey(true).Key)
 					{
 						case ConsoleKey.Escape:
-							Environment.Exit(0);
+							Exit(0, g.StartPoint.Y + (Grid.SQUARE_HEIGHT * g.Dimensions.Height), false);
 							break;
 						case ConsoleKey.UpArrow:
 							if (g.Snake != null)
@@ -52,6 +54,32 @@ namespace ConsoleSnake
 				}
 			}
 			Console.BackgroundColor = ConsoleColor.Black;
+		}
+
+		private static void ClearConsoleSpace(int height)
+		{
+			int diff = Console.CursorTop + height - Console.BufferHeight;
+			if (diff > 0)
+			{
+                Console.Write(new string('\n', diff));
+                Console.CursorTop -= diff;
+            }
+		}
+
+		public static void Exit(int endX, int endY, bool clear)
+		{
+			Console.ResetColor();
+			if (clear)
+			{
+				Console.SetCursorPosition(0, 0);
+				Console.Clear();
+			} else
+			{
+                Console.SetCursorPosition(endX, endY);
+            }
+			
+
+			Environment.Exit(0);
 		}
 
 		static void Start()
