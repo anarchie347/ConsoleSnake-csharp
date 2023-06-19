@@ -63,7 +63,7 @@ namespace ConsoleSnake
 				if (snake != null)
 				{
 					snake.Freeze();
-					while (Console.ReadKey(true).Key != ConsoleKey.Enter) ; //like a readline, but hides entered keys
+					//while (Console.ReadKey(true).Key != ConsoleKey.Enter) ; //like a readline, but hides entered keys
 				}
 			}
 			Environment.Exit(0);
