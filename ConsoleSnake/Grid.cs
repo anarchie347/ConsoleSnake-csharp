@@ -7,6 +7,7 @@ namespace ConsoleSnake
     internal class Grid
     {
         public event EventHandler FruitEaten;
+        public event EventHandler SnakeDied;
         public const ConsoleColor BACKGROUND_COLOUR_1 = ConsoleColor.Green;
         public const ConsoleColor BACKGROUND_COLOUR_2 = ConsoleColor.DarkGreen;
         public const int SQUARE_HEIGHT = 2;
@@ -61,7 +62,7 @@ namespace ConsoleSnake
             {
                 CheckIfSnakeHasEatenFruit(sender as Snake);
                 if (CheckIfSnakeHasDied((sender as Snake).Coords.Last()))
-                    Program.Exit(0, this.StartPoint.Y + (Grid.SQUARE_HEIGHT * this.Dimensions.Height), true, Snake);
+                    SnakeDied?.Invoke(this, EventArgs.Empty);
                 else
                     UpdateSnake((sender as Snake).Coords, (sender as Snake).BehindSnakeCoords, (sender as Snake).FacePosition);
             };

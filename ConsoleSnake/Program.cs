@@ -18,10 +18,10 @@ namespace ConsoleSnake
 			if (Console.BufferHeight < 50)
 				Console.BufferHeight = 50;
 
-			Start();
+			Start(args);
 		}
 
-		private static void Start()
+		private static void Start(string[] args)
 		{
             ClearConsoleSpace(Grid.SQUARE_HEIGHT * 12 + 1);
             Grid grid = new(new Size(12, 12), new Point(Console.CursorLeft, Console.CursorTop));
@@ -34,7 +34,7 @@ namespace ConsoleSnake
             };
             grid.AddSnake(new Snake(initialSnakeCoords, 150));
 
-			Game game = new(grid);
+			Game game = new(grid, args.Contains("-q"), args.Contains("-b"));
 			game.Start();
         }
 
@@ -59,6 +59,7 @@ namespace ConsoleSnake
 			else
 			{
 				Console.SetCursorPosition(endX, endY);
+				Console.WriteLine("Game over");
 				if (snake != null)
 				{
 					snake.Freeze();

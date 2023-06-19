@@ -13,11 +13,19 @@ namespace ConsoleSnake
 
 		public Score Score { get; private set; }
 
-		public Game(Grid grid)
+		private bool QuickAndClearExit;
+
+
+        public Game(Grid grid, bool quickAndClearExit, bool BasicScore)
 		{
 			this.Grid = grid;
-			Score = new Score(false, new Point(grid.StartPoint.X + (grid.Dimensions.Width * Grid.SQUARE_WIDTH) + (2 * Grid.SQUARE_WIDTH), grid.StartPoint.Y + (2 * Grid.SQUARE_HEIGHT)));
+			QuickAndClearExit = quickAndClearExit;
+			if (BasicScore)
+                Score = new Score(true, new Point(grid.StartPoint.X, grid.StartPoint.Y + (grid.Dimensions.Height * Grid.SQUARE_HEIGHT)));
+            else
+				Score = new Score(false, new Point(grid.StartPoint.X + (grid.Dimensions.Width * Grid.SQUARE_WIDTH) + (2 * Grid.SQUARE_WIDTH), grid.StartPoint.Y + (2 * Grid.SQUARE_HEIGHT)));
 			grid.FruitEaten += IncreaseScore;
+			grid.SnakeDied += (object? sender, EventArgs e) => EndGame();
 		}
 
 		public void Start()
@@ -33,7 +41,7 @@ namespace ConsoleSnake
 					switch (Console.ReadKey(true).Key)
 					{
 						case ConsoleKey.Escape:
-							Program.Exit(0, Grid.StartPoint.Y + (Grid.SQUARE_HEIGHT * Grid.Dimensions.Height), false, Grid.Snake);
+							EndGame();
 							break;
 						case ConsoleKey.Spacebar:
 							if (Grid.IsSnakeFrozen)
@@ -62,5 +70,10 @@ namespace ConsoleSnake
 		{
 			Score.Value++;
 		}
+
+		private void EndGame()
+		{
+            Program.Exit(0, Grid.StartPoint.Y + (Grid.SQUARE_HEIGHT * Grid.Dimensions.Height) + (Score.Basic ? 1 : 0), QuickAndClearExit, Grid.Snake);
+        }
 	}
 }
