@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Drawing;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Drawing;
 
 namespace ConsoleSnake
 {
@@ -26,13 +19,34 @@ namespace ConsoleSnake
 			NewLocation(Enumerable.Empty<Point>());
 		}
 
-		public void NewLocation(IEnumerable<Point> dissallowedPoints)
+		public void NewLocation(params IEnumerable<Point>[] dissallowedPoints)
 		{
 			Random r = new();
+			//because the dissallowed points are passed by reference, updating the location updates the disalowed points array containg the location of that fruit, hence the new location will always be in the dissallowed points
+			Point[][] staticDissallowed = new Point[dissallowedPoints.Length][];
+			for (int i = 0; i < dissallowedPoints.Length; i++)
+			{
+				staticDissallowed[i] = new Point[dissallowedPoints[i].Count()];
+				dissallowedPoints[i].ToArray().CopyTo(staticDissallowed[i],0);
+			}
 			do
 			{
 				Location = new Point(r.Next(GridDimensions.Width), r.Next(GridDimensions.Height));
-			} while (dissallowedPoints.Contains(Location));
+			} while (JaggedContains(staticDissallowed, Location));
+		}
+		public static bool JaggedContains(IEnumerable<Point>[] jaggedArr, Point value)
+		{
+            for (int i = 0; i < jaggedArr.Length; i++)
+			{
+				for (int j = 0; j < jaggedArr[i].Count(); j++)
+				{
+					if (jaggedArr[i].ToArray()[j] == value)
+					{
+						return true;
+					}
+				}
+			}
+			return false;
 		}
 		public void OutputFruit(Size squareSize, Point gridStartLocation)
 		{

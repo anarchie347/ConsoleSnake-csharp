@@ -11,6 +11,7 @@ namespace ConsoleSnake
 
 		static void Main(string[] args)
 		{
+			Console.Title = "0";
 			Console.OutputEncoding = System.Text.Encoding.UTF8;
 			Console.CursorVisible = false;
 			if (Console.BufferWidth < 50)
@@ -24,7 +25,15 @@ namespace ConsoleSnake
 		private static void Start(string[] args)
 		{
             ClearConsoleSpace(Grid.SQUARE_HEIGHT * 12 + 1);
-			Grid grid = new(new Size(12, 12), new Point(1,1));// new Point(Console.CursorLeft, Console.CursorTop));
+
+			string? fruitCountStr = args.FirstOrDefault(arg => arg.StartsWith("--fruitcount="))?.Substring(13);
+			int fruitCount = 0;
+			if (fruitCountStr != null && !int.TryParse(fruitCountStr, out fruitCount))
+				throw new ArgumentException($"'{fruitCountStr}' was not an integer {fruitCount}");
+			if (fruitCount == 0)
+				fruitCount = 1;
+
+			Grid grid = new(new Size(12, 12), new Point(Console.CursorLeft, Console.CursorTop), fruitCount);
 
             List<Point> initialSnakeCoords = new()
             {
