@@ -9,9 +9,9 @@ namespace ConsoleSnake
 {
 	internal class Game
 	{
-		public Grid Grid { get; private set; }
+		private Grid Grid;
 
-		public Score Score { get; private set; }
+		private Score Score;
 
 		private bool QuickAndClearExit;
 
@@ -50,16 +50,16 @@ namespace ConsoleSnake
 								Grid.StopSnake();
 							break;
 						case ConsoleKey.UpArrow:
-                            Grid.Snake?.ChangeDirection(Direction.Up);
+                            Grid.ChangeSnakeDirection(Direction.Up);
 							break;
 						case ConsoleKey.RightArrow:
-							Grid.Snake?.ChangeDirection(Direction.Right);
+                            Grid.ChangeSnakeDirection(Direction.Right);
 							break;
 						case ConsoleKey.DownArrow:
-							Grid.Snake?.ChangeDirection(Direction.Down);
+                            Grid.ChangeSnakeDirection(Direction.Down);
 							break;
 						case ConsoleKey.LeftArrow:
-							Grid.Snake?.ChangeDirection(Direction.Left);
+                            Grid.ChangeSnakeDirection(Direction.Left);
 							break;
 					}
 				}
@@ -73,7 +73,8 @@ namespace ConsoleSnake
 
 		private void EndGame()
 		{
-            Program.Exit(0, Grid.StartPoint.Y + (Grid.SQUARE_HEIGHT * Grid.Dimensions.Height) + (Score.Basic ? 1 : 0), QuickAndClearExit, Grid.Snake);
+			Grid.StopSnake();
+            Program.Exit(0, Grid.StartPoint.Y + (Grid.SQUARE_HEIGHT * Grid.Dimensions.Height) + (Score.Basic ? 1 : 0), QuickAndClearExit);
         }
 	}
 }

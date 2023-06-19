@@ -10,13 +10,14 @@ namespace ConsoleSnake
         public event EventHandler SnakeDied;
         public const ConsoleColor BACKGROUND_COLOUR_1 = ConsoleColor.Green;
         public const ConsoleColor BACKGROUND_COLOUR_2 = ConsoleColor.DarkGreen;
+
+        //do not change these because graphics use these values
         public const int SQUARE_HEIGHT = 2;
         public const int SQUARE_WIDTH = 4;
-        private readonly  string SQUARE_LINE_TEXT = new string(' ', SQUARE_WIDTH);
-
-        public Size Dimensions { get; init; }
-        public Point StartPoint { get; init; }
-        public Snake? Snake { get; private set; }
+        private readonly  string SQUARE_LINE_TEXT = new string(' ', SQUARE_WIDTH); 
+        public Size Dimensions { get;}
+        public Point StartPoint { get;}
+        private Snake? Snake;
 
         public bool IsSnakeFrozen { get { return Snake?.IsFrozen ?? false; } }
         
@@ -75,6 +76,11 @@ namespace ConsoleSnake
         public void StopSnake()
         {
             Snake?.Freeze();
+        }
+
+        public void ChangeSnakeDirection(Direction newDirection)
+        {
+            Snake.ChangeDirection(newDirection);
         }
 
         private void CheckIfSnakeHasEatenFruit(Snake snake)

@@ -24,7 +24,7 @@ namespace ConsoleSnake
 		private static void Start(string[] args)
 		{
             ClearConsoleSpace(Grid.SQUARE_HEIGHT * 12 + 1);
-            Grid grid = new(new Size(12, 12), new Point(Console.CursorLeft, Console.CursorTop));
+			Grid grid = new(new Size(12, 12), new Point(1,1));// new Point(Console.CursorLeft, Console.CursorTop));
 
             List<Point> initialSnakeCoords = new()
             {
@@ -48,7 +48,7 @@ namespace ConsoleSnake
             }
 		}
 
-		public static void Exit(int endX, int endY, bool quickAndClearExit, Snake? snake = null)
+		public static void Exit(int endX, int endY, bool quickAndClearExit)
 		{
             Console.ResetColor();
 			if (quickAndClearExit)
@@ -60,11 +60,6 @@ namespace ConsoleSnake
 			{
 				Console.SetCursorPosition(endX, endY);
 				Console.WriteLine("Game over");
-				if (snake != null)
-				{
-					snake.Freeze();
-					//while (Console.ReadKey(true).Key != ConsoleKey.Enter) ; //like a readline, but hides entered keys
-				}
 			}
 			Environment.Exit(0);
 		}
