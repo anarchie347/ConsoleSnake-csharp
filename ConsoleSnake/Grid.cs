@@ -16,6 +16,8 @@ namespace ConsoleSnake
         public Size Dimensions { get; init; }
         public Point StartPoint { get; init; }
         public Snake? Snake { get; private set; }
+
+        public bool IsSnakeFrozen { get { return Snake?.IsFrozen ?? false; } }
         
 
         private readonly Fruit Fruit;
@@ -68,6 +70,10 @@ namespace ConsoleSnake
         public void StartSnake()
         {
             Snake?.Unfreeze();
+        }
+        public void StopSnake()
+        {
+            Snake?.Freeze();
         }
 
         private void CheckIfSnakeHasEatenFruit(Snake snake)

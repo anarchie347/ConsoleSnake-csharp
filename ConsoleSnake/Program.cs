@@ -48,25 +48,23 @@ namespace ConsoleSnake
             }
 		}
 
-		public static void Exit(int endX, int endY, bool clear, Snake? snake = null)
+		public static void Exit(int endX, int endY, bool quickAndClearExit, Snake? snake = null)
 		{
-			if (snake != null)
-			{
-                snake.Freeze();
-				Console.ReadLine();
-            }
-				
-			Console.ResetColor();
-			if (clear)
+            Console.ResetColor();
+			if (quickAndClearExit)
 			{
 				Console.SetCursorPosition(0, 0);
 				Console.Clear();
-			} else
+			}
+			else
 			{
-                Console.SetCursorPosition(endX, endY);
-            }
-			
-
+				Console.SetCursorPosition(endX, endY);
+				if (snake != null)
+				{
+					snake.Freeze();
+					while (Console.ReadKey(true).Key != ConsoleKey.Enter) ; //like a readline, but hides entered keys
+				}
+			}
 			Environment.Exit(0);
 		}
 

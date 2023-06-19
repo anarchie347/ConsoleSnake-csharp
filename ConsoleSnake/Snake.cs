@@ -32,6 +32,7 @@ namespace ConsoleSnake
         public int MoveDelay { get; private set; }
         public Corner FacePosition { get; private set; }
         public Direction Direction { get; private set; }
+        public bool IsFrozen { get { return !(timer?.Enabled ?? false); } }
  
 
 
