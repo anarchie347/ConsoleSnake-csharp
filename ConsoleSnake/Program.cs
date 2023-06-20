@@ -14,17 +14,13 @@ namespace ConsoleSnake
 			Console.Title = "0";
 			Console.OutputEncoding = System.Text.Encoding.UTF8;
 			Console.CursorVisible = false;
-			if (Console.BufferWidth < 50)
-				Console.BufferWidth = 50;
-			if (Console.BufferHeight < 50)
-				Console.BufferHeight = 50;
-
-			Start(args);
+			CheckConsoleSize(args.Contains("-b"));
+            Start(args);
 		}
 
 		private static void Start(string[] args)
 		{
-            ClearConsoleSpace(Grid.SQUARE_HEIGHT * 12 + 2);
+            ClearConsoleSpace(Grid.SQUARE_HEIGHT * 12 + 3);
 
 			string? fruitCountStr = args.FirstOrDefault(arg => arg.StartsWith("--fruitcount="))?.Substring(13);
 			int fruitCount = 0;
@@ -47,6 +43,26 @@ namespace ConsoleSnake
 			game.Start();
         }
 
+		private static void CheckConsoleSize(bool basicScoring)
+		{
+            int minWidth;
+            if (basicScoring)
+                minWidth = Grid.SQUARE_WIDTH * 12;
+            else
+                minWidth = Grid.SQUARE_WIDTH * 14 + 19;
+            int minHeight = Grid.SQUARE_HEIGHT * 12 + 3;
+
+			if (Console.BufferWidth < minWidth)
+				throw new Exception($"Console buffer width is not big enough, must be at least {minWidth}, was {Console.BufferWidth}");
+            if (Console.WindowWidth < minWidth)
+                throw new Exception($"Console window width is not big enough, must be at least {minWidth}, was {Console.WindowWidth}");
+
+            if (Console.BufferWidth < minHeight)
+                throw new Exception($"Console buffer height is not big enough, must be at least {minHeight}, was {Console.BufferHeight}");
+            if (Console.WindowWidth < minHeight)
+                throw new Exception($"Console window height is not big enough, must be at least {minHeight}, was {Console.WindowHeight}");
+        }
+
 		public static void ClearConsoleSpace(int height)
 		{
 			int diff = Console.CursorTop + height - Console.BufferHeight;
@@ -54,6 +70,7 @@ namespace ConsoleSnake
 			{
                 Console.Write(new string('\n', diff));
                 Console.CursorTop -= diff;
+				Console.Title = "res";
             }
 		}
 
