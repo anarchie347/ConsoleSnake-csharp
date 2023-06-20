@@ -24,7 +24,7 @@ namespace ConsoleSnake
 
 		private static void Start(string[] args)
 		{
-            ClearConsoleSpace(Grid.SQUARE_HEIGHT * 12 + 1);
+            ClearConsoleSpace(Grid.SQUARE_HEIGHT * 12 + 2);
 
 			string? fruitCountStr = args.FirstOrDefault(arg => arg.StartsWith("--fruitcount="))?.Substring(13);
 			int fruitCount = 0;
