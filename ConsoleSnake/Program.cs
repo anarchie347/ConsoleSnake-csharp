@@ -11,7 +11,6 @@ namespace ConsoleSnake
 
 		static void Main(string[] args)
 		{
-			Console.Title = "0";
 			Console.OutputEncoding = System.Text.Encoding.UTF8;
 			Console.CursorVisible = false;
 			CheckConsoleSize(args.Contains("-b"));
@@ -65,14 +64,9 @@ namespace ConsoleSnake
 
 		public static void ClearConsoleSpace(int height)
 		{
-			int diff = Console.CursorTop + height - Console.BufferHeight;
-			if (diff > 0)
-			{
-                Console.Write(new string('\n', diff));
-                Console.CursorTop -= diff;
-				Console.Title = "res";
-            }
-		}
+			Console.Write(new string('\n', height));
+			Console.CursorTop -= height;
+        }
 
 		public static void Exit(int endX, int endY, bool quickAndClearExit)
 		{
