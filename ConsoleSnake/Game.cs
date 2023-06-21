@@ -50,15 +50,19 @@ namespace ConsoleSnake
 								Grid.StopSnake();
 							break;
 						case ConsoleKey.UpArrow:
+						case ConsoleKey.W:
                             Grid.ChangeSnakeDirection(Direction.Up);
 							break;
 						case ConsoleKey.RightArrow:
+						case ConsoleKey.D:
                             Grid.ChangeSnakeDirection(Direction.Right);
 							break;
 						case ConsoleKey.DownArrow:
+						case ConsoleKey.S:
                             Grid.ChangeSnakeDirection(Direction.Down);
 							break;
 						case ConsoleKey.LeftArrow:
+						case ConsoleKey.A:
                             Grid.ChangeSnakeDirection(Direction.Left);
 							break;
 					}
