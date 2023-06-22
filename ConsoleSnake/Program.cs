@@ -27,8 +27,8 @@ namespace ConsoleSnake
 			//	throw new ArgumentException($"'{fruitCountStr}' was not an integer {fruitCount}");
 			//if (fruitCount == 0)
 			//	fruitCount = 1;
-			int fruitCount = Math.Max(1, ParseParameter<int>(args, "fruitcount"));
-			int speed = 1000 / Math.Max(1, ParseParameter<int>(args, "speed"));
+			int fruitCount = Math.Max(1, ParseParameter(args, "fruitcount", 1));
+			int speed = 1000 / Math.Max(1, ParseParameter(args, "speed", 7));
 
 			Grid grid = new(new Size(12, 12), new Point(Console.CursorLeft, Console.CursorTop), fruitCount);
 
@@ -86,9 +86,9 @@ namespace ConsoleSnake
 			Environment.Exit(0);
 		}
 
-		public static T ParseParameter<T>( string[] args, string paramName)
+		public static T ParseParameter<T>(string[] args, string paramName, T defaultValue = default)
 		{
-			T result = default(T);
+			T result = defaultValue;
 			string valueStr;
 			for (int i = 0; i < args.Length; i++)
 			{
