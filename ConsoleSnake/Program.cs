@@ -31,8 +31,9 @@ namespace ConsoleSnake
 			{
 				BasicScore = CheckForFlag(args, "basicscore"),
 				QuickExit= CheckForFlag(args, "quickexit"),
-				FruitCount = Math.Max(1, ParseParameter(args, "fruitcount", 1)),
-				Speed = Math.Max(1, ParseParameter(args, "speed", 7))
+
+				FruitCount = ApplyBounds(ParseParameter(args, "fruitcount", 1), 1, 140),
+				Speed = ApplyBounds(ParseParameter(args, "speed", 7), 1, 100)
 			};
             //int fruitCount = Math.Max(1, ParseParameter(args, "fruitcount", 1));
             //int speed = 1000 / Math.Max(1, ParseParameter(args, "speed", 7));
@@ -80,6 +81,15 @@ namespace ConsoleSnake
 				Console.WriteLine("Game over");
 			}
 			Environment.Exit(0);
+		}
+
+		public static int ApplyBounds(int number, int? min = null, int? max = null)
+		{
+			if (min != null && number < min)
+				return min.Value;
+			if (max != null && number > max)
+				return max.Value;
+			return number;
 		}
 
 		public static bool CheckForFlag(string[] args, string paramName, bool allowShort = true)
