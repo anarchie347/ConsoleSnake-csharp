@@ -147,13 +147,15 @@ namespace ConsoleSnake
         {
             //[0] in list is tail, [count - 1] is head
             Point editPoint = behindSnakeCoords;
-            Console.BackgroundColor = (editPoint.X % 2 == editPoint.Y % 2) ? BACKGROUND_COLOUR_1 : BACKGROUND_COLOUR_2;
-            for (int i = 0; i < SQUARE_HEIGHT; i++)
+            if (!snakeCoords.Contains(editPoint))
             {
-                Console.SetCursorPosition(StartPoint.X + editPoint.X * SQUARE_WIDTH, StartPoint.Y + editPoint.Y * SQUARE_HEIGHT + i);
-                Console.WriteLine(SQUARE_LINE_TEXT);
+                Console.BackgroundColor = (editPoint.X % 2 == editPoint.Y % 2) ? BACKGROUND_COLOUR_1 : BACKGROUND_COLOUR_2;
+                for (int i = 0; i < SQUARE_HEIGHT; i++)
+                {
+                    Console.SetCursorPosition(StartPoint.X + editPoint.X * SQUARE_WIDTH, StartPoint.Y + editPoint.Y * SQUARE_HEIGHT + i);
+                    Console.WriteLine(SQUARE_LINE_TEXT);
+                }
             }
-
             Console.BackgroundColor = Snake.SNAKE_HEAD_COLOUR;
             editPoint = snakeCoords.Last();
             Console.SetCursorPosition(StartPoint.X + editPoint.X * SQUARE_WIDTH, StartPoint.Y + editPoint.Y * SQUARE_HEIGHT);
