@@ -21,12 +21,14 @@ namespace ConsoleSnake
 		{
             ClearConsoleSpace(Grid.SQUARE_HEIGHT * 12 + 3);
 
-			string? fruitCountStr = args.FirstOrDefault(arg => arg.StartsWith("--fruitcount="))?.Substring(13);
-			int fruitCount = 0;
-			if (fruitCountStr != null && !int.TryParse(fruitCountStr, out fruitCount))
-				throw new ArgumentException($"'{fruitCountStr}' was not an integer {fruitCount}");
-			if (fruitCount == 0)
-				fruitCount = 1;
+			//string? fruitCountStr = args.FirstOrDefault(arg => arg.StartsWith("--fruitcount="))?.Substring(13);
+			//int fruitCount = 0;
+			//if (fruitCountStr != null && !int.TryParse(fruitCountStr, out fruitCount))
+			//	throw new ArgumentException($"'{fruitCountStr}' was not an integer {fruitCount}");
+			//if (fruitCount == 0)
+			//	fruitCount = 1;
+			int fruitCount = ParseParameter<int>(args, "fruitcount");
+			fruitCount = fruitCount == 0 ? 1 : fruitCount;
 
 			Grid grid = new(new Size(12, 12), new Point(Console.CursorLeft, Console.CursorTop), fruitCount);
 
@@ -82,6 +84,28 @@ namespace ConsoleSnake
 				Console.WriteLine("Game over");
 			}
 			Environment.Exit(0);
+		}
+
+		public static T ParseParameter<T>( string[] args, string paramName)
+		{
+			T result = default(T);
+			string valueStr;
+			for (int i = 0; i < args.Length; i++)
+			{
+				if (args[i].StartsWith("--" + paramName + "="))
+				{
+					valueStr = args[i].Substring(paramName.Length + 3);
+					try
+					{
+						result = (T)Convert.ChangeType(valueStr, typeof(T));
+						return result;
+					} catch
+					{
+						throw new ArgumentException($"{valueStr} was not of type {typeof(T)}, which was required by the --{paramName} parameter");
+					}
+				}
+			}
+			return result;
 		}
 
 		static void StartOld()
