@@ -27,21 +27,17 @@ namespace ConsoleSnake
 			//	throw new ArgumentException($"'{fruitCountStr}' was not an integer {fruitCount}");
 			//if (fruitCount == 0)
 			//	fruitCount = 1;
-			int fruitCount = Math.Max(1, ParseParameter(args, "fruitcount", 1));
-			int speed = 1000 / Math.Max(1, ParseParameter(args, "speed", 7));
+			Options options = new()
+			{
+				BasicScore = CheckForFlag(args, "basicscore"),
+				QuickExit= CheckForFlag(args, "quickexit"),
+				FruitCount = Math.Max(1, ParseParameter(args, "fruitcount", 1)),
+				Speed = Math.Max(1, ParseParameter(args, "speed", 7))
+			};
+            //int fruitCount = Math.Max(1, ParseParameter(args, "fruitcount", 1));
+            //int speed = 1000 / Math.Max(1, ParseParameter(args, "speed", 7));
 
-			Grid grid = new(new Size(12, 12), new Point(Console.CursorLeft, Console.CursorTop), fruitCount);
-
-            List<Point> initialSnakeCoords = new()
-            {
-                new Point(0, grid.Dimensions.Height / 2 - 1),
-                new Point(1, grid.Dimensions.Height / 2 - 1),
-                new Point(2, grid.Dimensions.Height / 2 - 1)
-            };
-            grid.AddSnake(new Snake(initialSnakeCoords, speed));
-
-			Game game = new(grid, args.Contains("-q"), args.Contains("-b"));
-			game.Start();
+            _ = new Game(options);
         }
 
 		private static void CheckConsoleSize(bool basicScoring)
@@ -70,10 +66,10 @@ namespace ConsoleSnake
 			Console.CursorTop -= height;
         }
 
-		public static void Exit(int endX, int endY, bool quickAndClearExit)
+		public static void Exit(int endX, int endY, bool quickExit)
 		{
             Console.ResetColor();
-			if (quickAndClearExit)
+			if (quickExit)
 			{
 				Console.SetCursorPosition(0, 0);
 				Console.Clear();
@@ -86,6 +82,17 @@ namespace ConsoleSnake
 			Environment.Exit(0);
 		}
 
+		public static bool CheckForFlag(string[] args, string paramName, bool allowShort = true)
+		{
+			for (int i = 0; i < args.Length; i++)
+			{
+				if (args[i] == "--" + paramName || (allowShort && args[i] == "-" + paramName[0]))
+				{
+					return true;
+				}
+			}
+			return false;
+		}
 		public static T ParseParameter<T>(string[] args, string paramName, T defaultValue = default)
 		{
 			T result = defaultValue;
