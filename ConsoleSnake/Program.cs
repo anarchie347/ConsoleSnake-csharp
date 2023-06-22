@@ -13,13 +13,13 @@ namespace ConsoleSnake
 		{
 			Console.OutputEncoding = System.Text.Encoding.UTF8;
 			Console.CursorVisible = false;
-			CheckConsoleSize(args.Contains("-b"));
+			
             Start(args);
 		}
 
 		private static void Start(string[] args)
 		{
-            ClearConsoleSpace(Grid.SQUARE_HEIGHT * 12 + 3);
+            
 
 			//string? fruitCountStr = args.FirstOrDefault(arg => arg.StartsWith("--fruitcount="))?.Substring(13);
 			//int fruitCount = 0;
@@ -33,22 +33,26 @@ namespace ConsoleSnake
 				QuickExit= CheckForFlag(args, "quickexit"),
 
 				FruitCount = ApplyBounds(ParseParameter(args, "fruitcount", 1), 1, 140),
-				Speed = ApplyBounds(ParseParameter(args, "speed", 7), 1, 100)
+				Speed = ApplyBounds(ParseParameter(args, "speed", 7), 1, 100),
+				GridWidth = ApplyBounds(ParseParameter(args, "gridwidth", 12), 5,30),
+				GridHeight = ApplyBounds(ParseParameter(args, "gridheight", 12),5,30)
 			};
+            CheckConsoleSize(options.GridWidth, options.GridHeight, options.BasicScore);
+            ClearConsoleSpace(Grid.SQUARE_HEIGHT * options.GridHeight + 3);
             //int fruitCount = Math.Max(1, ParseParameter(args, "fruitcount", 1));
             //int speed = 1000 / Math.Max(1, ParseParameter(args, "speed", 7));
 
             _ = new Game(options);
         }
 
-		private static void CheckConsoleSize(bool basicScoring)
+		private static void CheckConsoleSize(int gridWidth, int gridHeight, bool basicScoring)
 		{
             int minWidth;
             if (basicScoring)
-                minWidth = Grid.SQUARE_WIDTH * 12;
+                minWidth = Grid.SQUARE_WIDTH * gridWidth;
             else
-                minWidth = Grid.SQUARE_WIDTH * 14 + 19;
-            int minHeight = Grid.SQUARE_HEIGHT * 12 + 3;
+                minWidth = Grid.SQUARE_WIDTH * (gridWidth + 2) + 24;
+            int minHeight = Grid.SQUARE_HEIGHT * gridHeight + 3;
 
 			if (Console.BufferWidth < minWidth)
 				throw new Exception($"Console buffer width is not big enough, must be at least {minWidth}, was {Console.BufferWidth}");

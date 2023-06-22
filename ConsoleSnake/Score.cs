@@ -31,16 +31,19 @@ namespace ConsoleSnake
 			Basic = basic;
 			StartPoint = startPoint;
 			value = 0;
-			UpdateScoreVisual();
+			UpdateScoreVisual(true);
 		}
 
-		private void UpdateScoreVisual()
+		private void UpdateScoreVisual(bool writeMsgForBasicMode = false)
 		{
-			Console.SetCursorPosition(StartPoint.X, StartPoint.Y);
+            
+			Console.SetCursorPosition(StartPoint.X + (writeMsgForBasicMode ? 0 : MESSAGE.Length), StartPoint.Y);
 			Console.ResetColor();
 			if (Basic)
 			{
-				Console.WriteLine($"{MESSAGE} {value}");
+                if (writeMsgForBasicMode)
+                    Console.Write(MESSAGE);
+				Console.Write(" " + value);
 			} else
 			{
 				DigitAsciiArt.Write(value, true, StartPoint.X, StartPoint.Y);
