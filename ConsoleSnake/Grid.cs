@@ -33,7 +33,6 @@ namespace ConsoleSnake
             {
                 Fruit[i] = new(dimensions);
             }
-
         }
 
         public void OutputGrid()
@@ -56,7 +55,7 @@ namespace ConsoleSnake
             if (Snake != null) RenderEntireSnake(Snake.Coords, Snake.FacePosition);
         }
 
-        public void AddSnake(Snake snake)
+        public void AddSnake(Snake snake, bool pacifist)
         {
 
             this.Snake = snake;
@@ -64,17 +63,30 @@ namespace ConsoleSnake
             snake.Freeze();
             foreach (Fruit f in Fruit)
             {
-                f.NewLocation(snake.Coords, Fruit.Select(f => f.Location));
+                f.NewLocation(snake.Coords, new Point[] { snake.BehindSnakeCoords }, Fruit.Select(f => f.Location));
                 f.OutputFruit(new Size(SQUARE_WIDTH, SQUARE_HEIGHT), StartPoint);
             }
-            Snake.SnakeMove += (object? sender, EventArgs e) =>
+            if (pacifist)
             {
-                CheckIfSnakeHasEatenFruit(sender as Snake);
-                if (CheckIfSnakeHasDied((sender as Snake).Coords.Last()))
-                    SnakeDied?.Invoke(this, EventArgs.Empty);
-                else
+                Snake.SnakeMove += (object? sender, EventArgs e) =>
+                {
+                    WrapSnake(sender as Snake);
+                    CheckIfSnakeHasEatenFruit(sender as Snake);
                     UpdateSnake((sender as Snake).Coords, (sender as Snake).BehindSnakeCoords, (sender as Snake).FacePosition);
-            };
+                    
+                };
+            }
+            else
+            {
+                Snake.SnakeMove += (object? sender, EventArgs e) =>
+                {
+                    CheckIfSnakeHasEatenFruit(sender as Snake);
+                    if (CheckIfSnakeHasDied((sender as Snake).Coords.Last()))
+                        SnakeDied?.Invoke(this, EventArgs.Empty);
+                    else
+                        UpdateSnake((sender as Snake).Coords, (sender as Snake).BehindSnakeCoords, (sender as Snake).FacePosition);
+                };
+            }
         }
         
         public void StartSnake()
@@ -99,7 +111,7 @@ namespace ConsoleSnake
                 if (snake.Coords.Last() == f.Location)
                 {
                     snake.Grow();
-                    f.NewLocation(snake.Coords, Fruit.Select(f => f.Location));
+                    f.NewLocation(snake.Coords, new Point[] { snake.BehindSnakeCoords }, Fruit.Select(f => f.Location));
                     f.OutputFruit(new Size(SQUARE_WIDTH, SQUARE_HEIGHT), StartPoint);
                     FruitEaten?.Invoke(this, EventArgs.Empty);
                 }
@@ -114,6 +126,21 @@ namespace ConsoleSnake
         private bool CheckSnakeSelfCollisions(Point head)
         {
             return Snake.Coords.IndexOf(head) < Snake.Coords.Count - 1;
+        }
+
+        private void WrapSnake(Snake snake)
+        {
+            Point head = snake.Coords.Last();
+            if (head.X < 0)
+                snake.SetHeadPosition(new Point(Dimensions.Width - 1, head.Y));
+            else if (head.X >= Dimensions.Width)
+                snake.SetHeadPosition(new Point(0, head.Y));
+
+            else if (head.Y < 0)
+                snake.SetHeadPosition(new Point(head.X, Dimensions.Height - 1));
+            else if (head.Y >= Dimensions.Height)
+                snake.SetHeadPosition(new Point(head.X, 0));
+
         }
 
         private void UpdateSnake(IEnumerable<Point> snakeCoords, Point behindSnakeCoords, Corner facePosition)

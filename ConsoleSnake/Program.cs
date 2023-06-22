@@ -31,6 +31,7 @@ namespace ConsoleSnake
 			{
 				BasicScore = CheckForFlag(args, "basicscore"),
 				QuickExit= CheckForFlag(args, "quickexit"),
+				Pacifist= CheckForFlag(args, "pacifist"),
 
 				FruitCount = ApplyBounds(ParseParameter(args, "fruitcount", 1), 1, 140),
 				Speed = ApplyBounds(ParseParameter(args, "speed", 7), 1, 100),

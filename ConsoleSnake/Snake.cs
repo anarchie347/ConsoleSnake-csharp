@@ -85,6 +85,11 @@ namespace ConsoleSnake
             timer.Start();
         }
 
+        public void SetHeadPosition(Point newLocation)
+        {
+            coords[coords.Count - 1] = newLocation;
+        }
+
         private void SnakeTimerTick(object? sender, ElapsedEventArgs e)
         {
             if (!GrowOnNextTurn)

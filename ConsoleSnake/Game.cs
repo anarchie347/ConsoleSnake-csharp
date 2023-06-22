@@ -26,7 +26,7 @@ namespace ConsoleSnake
                 new Point(1, grid.Dimensions.Height / 2 - 1),
                 new Point(2, grid.Dimensions.Height / 2 - 1)
             };
-            grid.AddSnake(new Snake(initialSnakeCoords, 1000 / options.Speed));
+            grid.AddSnake(new Snake(initialSnakeCoords, 1000 / options.Speed), options.Pacifist);
 
             
 
