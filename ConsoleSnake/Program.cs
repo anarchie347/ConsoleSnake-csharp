@@ -27,8 +27,8 @@ namespace ConsoleSnake
 			//	throw new ArgumentException($"'{fruitCountStr}' was not an integer {fruitCount}");
 			//if (fruitCount == 0)
 			//	fruitCount = 1;
-			int fruitCount = ParseParameter<int>(args, "fruitcount");
-			fruitCount = fruitCount == 0 ? 1 : fruitCount;
+			int fruitCount = Math.Max(1, ParseParameter<int>(args, "fruitcount"));
+			int speed = 1000 / Math.Max(1, ParseParameter<int>(args, "speed"));
 
 			Grid grid = new(new Size(12, 12), new Point(Console.CursorLeft, Console.CursorTop), fruitCount);
 
@@ -38,7 +38,7 @@ namespace ConsoleSnake
                 new Point(1, grid.Dimensions.Height / 2 - 1),
                 new Point(2, grid.Dimensions.Height / 2 - 1)
             };
-            grid.AddSnake(new Snake(initialSnakeCoords, 150));
+            grid.AddSnake(new Snake(initialSnakeCoords, speed));
 
 			Game game = new(grid, args.Contains("-q"), args.Contains("-b"));
 			game.Start();
