@@ -12,6 +12,7 @@ namespace ConsoleSnake
         public bool QuickExit { get; init; }
         public bool BasicScore { get; init; }
         public bool Pacifist { get; init; }
+        public bool Muted { get; init; }
 
 
         public int Speed { get; init; }

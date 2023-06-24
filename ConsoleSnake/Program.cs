@@ -19,7 +19,7 @@ namespace ConsoleSnake
 
 		private static void Start(string[] args)
 		{
-            
+
 
 			//string? fruitCountStr = args.FirstOrDefault(arg => arg.StartsWith("--fruitcount="))?.Substring(13);
 			//int fruitCount = 0;
@@ -30,8 +30,9 @@ namespace ConsoleSnake
 			Options options = new()
 			{
 				BasicScore = CheckForFlag(args, "basicscore"),
-				QuickExit= CheckForFlag(args, "quickexit"),
-				Pacifist= CheckForFlag(args, "pacifist"),
+				QuickExit = CheckForFlag(args, "quickexit"),
+				Pacifist = CheckForFlag(args, "pacifist"),
+				Muted = CheckForFlag(args, "muted"),
 
 				FruitCount = ApplyBounds(ParseParameter(args, "fruitcount", 1), 1, 140),
 				Speed = ApplyBounds(ParseParameter(args, "speed", 7), 1, 100),

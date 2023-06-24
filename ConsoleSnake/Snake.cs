@@ -62,13 +62,38 @@ namespace ConsoleSnake
             timer.Start();
         }
 
-        public bool ChangeDirection(Direction newDirection)
+        public bool ChangeDirection(Direction newDirection, bool muted)
         {
-            if ((int)MoveList.Last() == ((int)newDirection + 2) % 4)
+            if ((int)MoveList.Last() == ((int)newDirection + 2) % 4 || MoveList.Last() == newDirection)
             {
                 return false;
             }
             Direction = newDirection;
+            if (muted)
+                return true;
+            if (OperatingSystem.IsWindows())
+            {
+                switch (newDirection)
+                {
+                    case Direction.Right:
+                        Console.Beep(700, 150);
+                        break;
+                    case Direction.Down:
+                        Console.Beep(500, 150);
+                        break;
+                    case Direction.Left:
+                        Console.Beep(600, 150);
+                        break;
+                    case Direction.Up:
+                        Console.Beep(800, 150);
+                        break;
+
+                }
+            } else
+            {
+                Console.Beep();
+            }
+            
             return true;
         }
 
@@ -110,7 +135,6 @@ namespace ConsoleSnake
                         FacePosition = Corner.TopLeft;
                     else if (FacePosition == Corner.BottomRight)
                         FacePosition = Corner.TopRight;
-
                     break;
                 case Direction.Right:
                     coords.Add(new Point(currentHeadPos.X + 1, currentHeadPos.Y));

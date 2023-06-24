@@ -13,11 +13,12 @@ namespace ConsoleSnake
 
 		private Score Score;
 
-		private bool QuickExit;
+		private Options Options;
 
 
         public Game(Options options)
 		{
+			Options = options;
             Grid grid = new(new Size(options.GridWidth, options.GridHeight), new Point(Console.CursorLeft, Console.CursorTop), options.FruitCount);
 
             List<Point> initialSnakeCoords = new()
@@ -31,7 +32,6 @@ namespace ConsoleSnake
             
 
             this.Grid = grid;
-			QuickExit = options.QuickExit;
 			if (options.BasicScore)
                 Score = new Score(true, new Point(grid.StartPoint.X, grid.StartPoint.Y + (grid.Dimensions.Height * Grid.SQUARE_HEIGHT)));
             else
@@ -65,19 +65,19 @@ namespace ConsoleSnake
 							break;
 						case ConsoleKey.UpArrow:
 						case ConsoleKey.W:
-                            Grid.ChangeSnakeDirection(Direction.Up);
+                            Grid.ChangeSnakeDirection(Direction.Up, Options.Muted);
 							break;
 						case ConsoleKey.RightArrow:
 						case ConsoleKey.D:
-                            Grid.ChangeSnakeDirection(Direction.Right);
+                            Grid.ChangeSnakeDirection(Direction.Right, Options.Muted);
 							break;
 						case ConsoleKey.DownArrow:
 						case ConsoleKey.S:
-                            Grid.ChangeSnakeDirection(Direction.Down);
+                            Grid.ChangeSnakeDirection(Direction.Down, Options.Muted);
 							break;
 						case ConsoleKey.LeftArrow:
 						case ConsoleKey.A:
-                            Grid.ChangeSnakeDirection(Direction.Left);
+                            Grid.ChangeSnakeDirection(Direction.Left, Options.Muted);
 							break;
 					}
 				}
@@ -92,7 +92,7 @@ namespace ConsoleSnake
 		private void EndGame()
 		{
 			Grid.StopSnake();
-            Program.Exit(0, Grid.StartPoint.Y + (Grid.SQUARE_HEIGHT * Grid.Dimensions.Height) + (Score.Basic ? 1 : 0), QuickExit);
+            Program.Exit(0, Grid.StartPoint.Y + (Grid.SQUARE_HEIGHT * Grid.Dimensions.Height) + (Score.Basic ? 1 : 0), Options.QuickExit);
         }
 	}
 }

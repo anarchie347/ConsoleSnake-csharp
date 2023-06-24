@@ -98,9 +98,9 @@ namespace ConsoleSnake
             Snake?.Freeze();
         }
 
-        public void ChangeSnakeDirection(Direction newDirection)
+        public void ChangeSnakeDirection(Direction newDirection, bool muted)
         {
-            Snake.ChangeDirection(newDirection);
+            Snake.ChangeDirection(newDirection, muted);
         }
 
         private void CheckIfSnakeHasEatenFruit(Snake snake)
