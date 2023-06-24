@@ -108,27 +108,32 @@ namespace ConsoleSnake
 			}
 			return false;
 		}
-		public static T ParseParameter<T>(string[] args, string paramName, T defaultValue = default)
+		public static T ParseParameter<T>(string[] args, string paramName, T defaultValue)
 		{
-			T result = defaultValue;
-			string valueStr;
-			for (int i = 0; i < args.Length; i++)
-			{
-				if (args[i].StartsWith("--" + paramName + "="))
-				{
-					valueStr = args[i].Substring(paramName.Length + 3);
-					try
-					{
-						result = (T)Convert.ChangeType(valueStr, typeof(T));
-						return result;
-					} catch
-					{
-						throw new ArgumentException($"{valueStr} was not of type {typeof(T)}, which was required by the --{paramName} parameter");
-					}
-				}
-			}
-			return result;
+			return ParseParameter<T>(args, paramName) ?? defaultValue;
 		}
+		public static T? ParseParameter<T>(string[] args, string paramName)
+		{
+			T? result = default;
+            string valueStr;
+            for (int i = 0; i < args.Length; i++)
+            {
+                if (args[i].StartsWith("--" + paramName + "="))
+                {
+                    valueStr = args[i].Substring(paramName.Length + 3);
+                    try
+                    {
+                        result = (T)Convert.ChangeType(valueStr, typeof(T));
+                        return result;
+                    }
+                    catch
+                    {
+                        throw new ArgumentException($"{valueStr} was not of type {typeof(T)}, which was required by the --{paramName} parameter");
+                    }
+                }
+            }
+            return result;
+        }
 
 		static void StartOld()
 		{
