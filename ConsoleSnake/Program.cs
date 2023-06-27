@@ -19,8 +19,14 @@ namespace ConsoleSnake
 
         private static void Start(string[] args)
         {
-
-
+            string executingDirectory = Environment.CurrentDirectory;
+            string[] filePaths = Directory.GetFiles(executingDirectory);
+            Console.WriteLine(executingDirectory);
+            filePaths = filePaths.Where(p => Path.GetExtension(p) == ".snake").ToArray();
+            foreach (string filePath in filePaths)
+            {
+                Console.WriteLine(filePath);
+            }
             //string? fruitCountStr = args.FirstOrDefault(arg => arg.StartsWith("--fruitcount="))?.Substring(13);
             //int fruitCount = 0;
             //if (fruitCountStr != null && !int.TryParse(fruitCountStr, out fruitCount))
