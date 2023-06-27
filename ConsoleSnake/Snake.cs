@@ -119,7 +119,7 @@ namespace ConsoleSnake
 
         private void SnakeTimerTick(object? sender, ElapsedEventArgs e)
         {
-            if (!GrowOnNextTurn && !CheeseEndRemoveAlternator)
+            if (!GrowOnNextTurn && !(CheeseEndRemoveAlternator && Cheese))
             {
                 BehindSnakeCoords = coords[0];
                 coords.RemoveAt(0);
