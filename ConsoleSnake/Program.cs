@@ -33,6 +33,8 @@ namespace ConsoleSnake
 				QuickExit = CheckForFlag(args, "quickexit"),
 				Pacifist = CheckForFlag(args, "pacifist"),
 				Muted = CheckForFlag(args, "muted"),
+				Cheese = CheckForFlag(args,"cheese"),
+				Debug = CheckForFlag(args, "debug"),
 
 				FruitCount = ApplyBounds(ParseParameter(args, "fruitcount", 1), 1, 140),
 				Speed = ApplyBounds(ParseParameter(args, "speed", 7), 1, 100),

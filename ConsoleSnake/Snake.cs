@@ -27,25 +27,27 @@ namespace ConsoleSnake
         private List<Point> coords;
         private List<Direction> moveList;
 
-        public int Length { get; private set; }
         public Point BehindSnakeCoords { get; private set; }
+        public Point BehindHeadCoords { get; private set; }
         public int MoveDelay { get; private set; }
         public Corner FacePosition { get; private set; }
         public Direction Direction { get; private set; }
         public bool IsFrozen { get { return !(timer?.Enabled ?? false); } }
- 
+        public bool Cheese { get; private set; }
 
 
         private System.Timers.Timer timer;
         private bool GrowOnNextTurn;
+        private bool CheeseEndRemoveAlternator;
 
-        public Snake(List<Point> initalSnake, int moveDelay)
+
+        public Snake(List<Point> initalSnake, int moveDelay, bool cheese)
         {
             coords = initalSnake;
             moveList = new List<Direction>();
-            Length = initalSnake.Count;
             Direction = Direction.Right;
             FacePosition = Corner.TopRight;
+            Cheese = cheese;
             
 
             for (int i = 0; i < initalSnake.Count - 1; i++)
@@ -117,13 +119,13 @@ namespace ConsoleSnake
 
         private void SnakeTimerTick(object? sender, ElapsedEventArgs e)
         {
-            if (!GrowOnNextTurn)
-            { 
+            if (!GrowOnNextTurn && !CheeseEndRemoveAlternator)
+            {
                 BehindSnakeCoords = coords[0];
                 coords.RemoveAt(0);
             }
+            CheeseEndRemoveAlternator = !CheeseEndRemoveAlternator;
             GrowOnNextTurn = false;
-            
 
             Point currentHeadPos = coords.Last();
             switch (Direction)
@@ -164,7 +166,11 @@ namespace ConsoleSnake
 
                     break;
             }
-
+            BehindHeadCoords = currentHeadPos;
+            //Point behindheadCoords = coords[coords.Count - 2];
+            if (Cheese && (currentHeadPos.X % 2 == currentHeadPos.Y % 2))
+                coords.RemoveAt(coords.Count - 2);
+            
             moveList.Add(Direction);
             SnakeMove?.Invoke(this, EventArgs.Empty);
         }

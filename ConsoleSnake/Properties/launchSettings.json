@@ -1,7 +1,8 @@
 {
   "profiles": {
     "ConsoleSnake": {
-      "commandName": "Project"
+      "commandName": "Project",
+      "commandLineArgs": "--cheese --speed=1"
     }
   }
 }

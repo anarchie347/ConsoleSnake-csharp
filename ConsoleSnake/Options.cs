@@ -13,6 +13,8 @@ namespace ConsoleSnake
         public bool BasicScore { get; init; }
         public bool Pacifist { get; init; }
         public bool Muted { get; init; }
+        public bool Cheese { get; init; }
+        public bool Debug { get; init; }
 
 
         public int Speed { get; init; }
