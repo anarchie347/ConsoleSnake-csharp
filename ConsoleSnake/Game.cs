@@ -85,9 +85,15 @@ namespace ConsoleSnake
 							break;
 						case ConsoleKey.Spacebar:
 							if (Grid.IsSnakeFrozen)
-								Grid.StartSnake();
+							{
+                                Grid.StartSnake();
+                            }
 							else
-								Grid.StopSnake();
+							{
+                                Grid.StopSnake(true);
+								Score.ReOutputScore();
+                            }
+								
 							break;
 						case ConsoleKey.UpArrow:
 						case ConsoleKey.W:
@@ -172,7 +178,7 @@ namespace ConsoleSnake
 
 		private void EndGame()
 		{
-			Grid.StopSnake();
+			Grid.StopSnake(false);
             Program.Exit(0, Grid.StartPoint.Y + (Grid.SQUARE_HEIGHT * Grid.Dimensions.Height) + (Score.Basic ? 1 : 0), Options.QuickExit);
         }
 	}

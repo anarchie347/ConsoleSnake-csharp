@@ -101,9 +101,11 @@ namespace ConsoleSnake
 		{
 			Snake?.Unfreeze();
 		}
-		public void StopSnake()
+		public void StopSnake(bool ReOutputGrid)
 		{
 			Snake?.Freeze();
+                OutputGrid();
+				
 		}
 
 		public void ChangeSnakeDirection(Direction newDirection, bool muted)

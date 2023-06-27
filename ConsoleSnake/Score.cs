@@ -34,6 +34,11 @@ namespace ConsoleSnake
 			UpdateScoreVisual(true);
 		}
 
+        public void ReOutputScore()
+        {
+            UpdateScoreVisual(true);
+        }
+
 		private void UpdateScoreVisual(bool writeMsgForBasicMode = false)
 		{
             
