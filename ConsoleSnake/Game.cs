@@ -21,18 +21,25 @@ namespace ConsoleSnake
 			Options = options;
             Grid grid = new(new Size(options.GridWidth, options.GridHeight), new Point(Console.CursorLeft, Console.CursorTop), options.FruitCount);
 
-            List<Point> initialSnakeCoords = new()
-            {
-                //new Point(1, grid.Dimensions.Height / 2 - 1),
-                new Point(2, grid.Dimensions.Height / 2 - 1),
-                //new Point(3, grid.Dimensions.Height / 2 - 1),
+			List<Point> initialSnakeCoords;
 
-                new Point(4, grid.Dimensions.Height / 2 - 1),
-                //new Point(5, grid.Dimensions.Height / 2 - 1),
-                //new Point(6, grid.Dimensions.Height / 2 - 1),
-                //new Point(8, grid.Dimensions.Height / 2 - 1),
-                //new Point(10, grid.Dimensions.Height / 2 - 1),
-            };
+			if (options.Cheese)
+			{
+                initialSnakeCoords = new()
+                {
+                    new Point(2, grid.Dimensions.Height / 2 - 1),
+                    new Point(4, grid.Dimensions.Height / 2 - 1),
+                };
+            } else
+			{
+                initialSnakeCoords = new()
+                {
+                    new Point(1, grid.Dimensions.Height / 2 - 1),
+                    new Point(2, grid.Dimensions.Height / 2 - 1),
+                    new Point(3, grid.Dimensions.Height / 2 - 1),
+                    new Point(4, grid.Dimensions.Height / 2 - 1),
+                };
+            }
             grid.AddSnake(new Snake(initialSnakeCoords, 1000 / options.Speed, options.Cheese), options.Pacifist, options.Cheese);
 
             
