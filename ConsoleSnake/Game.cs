@@ -29,6 +29,9 @@ namespace ConsoleSnake
                 {
                     new Point(2, grid.Dimensions.Height / 2 - 1),
                     new Point(4, grid.Dimensions.Height / 2 - 1),
+
+                    new Point(6, grid.Dimensions.Height / 2 - 1),
+                    new Point(8, grid.Dimensions.Height / 2 - 1),
                 };
             } else
 			{
@@ -105,10 +108,10 @@ namespace ConsoleSnake
 					}
                     if (Options.Debug)
                     {
-						Console.ResetColor();
 						if (key == ConsoleKey.Backspace)
 						{
-							for (int i = 0; i < numberOfDebugMessagesOutput; i++)
+                            Console.ResetColor();
+                            for (int i = 0; i < numberOfDebugMessagesOutput; i++)
 							{
                                 Console.SetCursorPosition(Grid.StartPoint.X, Grid.SQUARE_HEIGHT * Grid.Dimensions.Height + (Options.BasicScore ? 1 : 0) + i);
 								Console.Write(new string(' ', Console.WindowWidth));
@@ -118,6 +121,7 @@ namespace ConsoleSnake
 						else
 						{
                             Grid.MoveSnakeOnce();
+							Console.ResetColor();
                             DebugMessage(key, numberOfDebugMessagesOutput);
                             numberOfDebugMessagesOutput++;
                         }
@@ -130,7 +134,7 @@ namespace ConsoleSnake
 		private void DebugMessage(ConsoleKey lastKey, int numberOfDebugMessagesOutput)
 		{
             string coordsAsString = "";
-            foreach (Point p in Grid.SnakeCoords)
+            foreach (Point p in Grid.SnakeCoords.Reverse())
                 coordsAsString += $"[{p.X}, {p.Y}] ";
             Console.Title = coordsAsString;
             Console.SetCursorPosition(Grid.StartPoint.X, Grid.SQUARE_HEIGHT * Grid.Dimensions.Height + (Options.BasicScore ? 1 : 0) + numberOfDebugMessagesOutput);

@@ -60,7 +60,7 @@ namespace ConsoleSnake
                 Enabled = false
             };
             MoveDelay = moveDelay;
-            timer.Elapsed += SnakeTimerTick;
+            timer.Elapsed += (object sender, ElapsedEventArgs e) => SnakeTimerTick();
             timer.Start();
         }
 
@@ -116,15 +116,24 @@ namespace ConsoleSnake
         {
             coords[coords.Count - 1] = newLocation;
         }
-
-        private void SnakeTimerTick(object? sender, ElapsedEventArgs e)
+        public void MoveOnce()
         {
-            if (!GrowOnNextTurn && !(CheeseEndRemoveAlternator && Cheese))
+            SnakeTimerTick();
+        }
+
+        private void SnakeTimerTick()
+        {
+            if (!GrowOnNextTurn)
+            { } //remove
+
+
+            if (!(GrowOnNextTurn || (CheeseEndRemoveAlternator && Cheese)))
             {
                 BehindSnakeCoords = coords[0];
                 coords.RemoveAt(0);
             }
-            CheeseEndRemoveAlternator = !CheeseEndRemoveAlternator;
+            if (!GrowOnNextTurn)
+                CheeseEndRemoveAlternator = !CheeseEndRemoveAlternator;
             GrowOnNextTurn = false;
 
             Point currentHeadPos = coords.Last();

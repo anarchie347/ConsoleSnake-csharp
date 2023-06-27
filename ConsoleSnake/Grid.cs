@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Drawing;
+using System.Xml.Linq;
 
 namespace ConsoleSnake
 {
@@ -112,14 +113,8 @@ namespace ConsoleSnake
 
 		public void MoveSnakeOnce()
 		{
-			Snake?.Unfreeze();
-			Snake.SnakeMove += MoveSnakeOnceStop;
-		}
-		private void MoveSnakeOnceStop(object? sender, EventArgs e)
-		{
-			StopSnake();
-			Snake.SnakeMove -= MoveSnakeOnceStop;
-		}
+			Snake.MoveOnce();
+        }
 
 		private void CheckIfSnakeHasEatenFruit(Snake snake)
 		{
