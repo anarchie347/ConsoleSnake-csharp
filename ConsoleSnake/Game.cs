@@ -43,7 +43,7 @@ namespace ConsoleSnake
                     new Point(4, grid.Dimensions.Height / 2 - 1),
                 };
             }
-            grid.AddSnake(new Snake(initialSnakeCoords, 1000 / options.Speed, options.Cheese), options.Pacifist, options.Cheese);
+            grid.AddSnake(new Snake(initialSnakeCoords, 1000 / options.Speed, options.Cheese, options.SnakeBodyColour, options.SnakeHeadColour), options.Pacifist, options.Cheese);
 
             
 

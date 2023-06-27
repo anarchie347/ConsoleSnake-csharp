@@ -21,6 +21,8 @@ namespace ConsoleSnake
         public int FruitCount { get; init; }
         public int GridWidth { get; init; }
         public int GridHeight { get; init; }
+        public ConsoleColor SnakeBodyColour { get; init; }
+        public ConsoleColor SnakeHeadColour { get ; init; }
 
     }
 }
