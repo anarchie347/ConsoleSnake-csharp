@@ -113,7 +113,7 @@ namespace ConsoleSnake
                             Console.ResetColor();
                             for (int i = 0; i < numberOfDebugMessagesOutput; i++)
 							{
-                                Console.SetCursorPosition(Grid.StartPoint.X, Grid.SQUARE_HEIGHT * Grid.Dimensions.Height + (Options.BasicScore ? 1 : 0) + i);
+                                Console.SetCursorPosition(Grid.StartPoint.X, Grid.StartPoint.Y + Grid.SQUARE_HEIGHT * Grid.Dimensions.Height + (Options.BasicScore ? 1 : 0) + i);
 								Console.Write(new string(' ', Console.WindowWidth));
                             }
 							numberOfDebugMessagesOutput = 0;
@@ -137,7 +137,7 @@ namespace ConsoleSnake
             foreach (Point p in Grid.SnakeCoords.Reverse())
                 coordsAsString += $"[{p.X}, {p.Y}] ";
             Console.Title = coordsAsString;
-            Console.SetCursorPosition(Grid.StartPoint.X, Grid.SQUARE_HEIGHT * Grid.Dimensions.Height + (Options.BasicScore ? 1 : 0) + numberOfDebugMessagesOutput);
+            Console.SetCursorPosition(Grid.StartPoint.X, Grid.StartPoint.Y + Grid.SQUARE_HEIGHT * Grid.Dimensions.Height + (Options.BasicScore ? 1 : 0) + numberOfDebugMessagesOutput);
 
 			char arrow = '-';
 			switch (lastKey)

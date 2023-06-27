@@ -186,7 +186,7 @@ namespace ConsoleSnake
 					Console.Write(SQUARE_LINE_TEXT);
 				for (int i = 1; i < SQUARE_HEIGHT - 1; i++)
 				{
-					Console.SetCursorPosition(editPoint.X * SQUARE_WIDTH, editPoint.Y * SQUARE_HEIGHT + i);
+					Console.SetCursorPosition(StartPoint.X + editPoint.X * SQUARE_WIDTH, StartPoint.Y + editPoint.Y * SQUARE_HEIGHT + i);
 					Console.Write(SQUARE_LINE_TEXT);
 				}
 				Console.SetCursorPosition(StartPoint.X + editPoint.X * SQUARE_WIDTH, StartPoint.Y + (editPoint.Y + 1) * SQUARE_HEIGHT - 1);
@@ -245,7 +245,7 @@ namespace ConsoleSnake
 					Console.Write(SQUARE_LINE_TEXT);
 				for (int i = 1; i < SQUARE_HEIGHT - 1; i++)
 				{
-					Console.SetCursorPosition(editPoint.X * SQUARE_WIDTH, editPoint.Y * SQUARE_HEIGHT + i);
+					Console.SetCursorPosition(StartPoint.X + editPoint.X * SQUARE_WIDTH, StartPoint.Y + editPoint.Y * SQUARE_HEIGHT + i);
 					Console.Write(SQUARE_LINE_TEXT);
 				}
 				Console.SetCursorPosition(StartPoint.X + editPoint.X * SQUARE_WIDTH, StartPoint.Y + (editPoint.Y + 1) * SQUARE_HEIGHT - 1);
