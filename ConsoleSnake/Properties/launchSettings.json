@@ -1,8 +1,7 @@
 {
   "profiles": {
     "ConsoleSnake": {
-      "commandName": "Project",
-      "commandLineArgs": "--speed=20 --gridheight=20 --gridwidth=20"
+      "commandName": "Project"
     }
   }
 }
