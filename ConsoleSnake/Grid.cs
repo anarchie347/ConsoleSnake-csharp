@@ -104,6 +104,7 @@ namespace ConsoleSnake
 		public void StopSnake(bool ReOutputGrid)
 		{
 			Snake?.Freeze();
+			if (ReOutputGrid)
                 OutputGrid();
 				
 		}
