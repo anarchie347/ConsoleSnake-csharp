@@ -174,7 +174,7 @@ namespace ConsoleSnake
 					Console.WriteLine(SQUARE_LINE_TEXT);
 				}
 			}
-			Console.BackgroundColor = Snake.SNAKE_HEAD_COLOUR;
+			Console.BackgroundColor = Snake.SnakeHeadColour;
 			editPoint = snakeCoords.Last();
 			Console.SetCursorPosition(StartPoint.X + editPoint.X * SQUARE_WIDTH, StartPoint.Y + editPoint.Y * SQUARE_HEIGHT);
 			if (SQUARE_HEIGHT > 1)
@@ -221,7 +221,7 @@ namespace ConsoleSnake
 
 
             editPoint = snakeCoords[snakeCoords.Count() - 2];
-            Console.BackgroundColor = Snake.SNAKE_BODY_COLOUR;
+            Console.BackgroundColor = Snake.SnakeBodyColour;
 			for (int i = 0; i < SQUARE_HEIGHT; i++)
 			{
 				Console.SetCursorPosition(StartPoint.X + editPoint.X * SQUARE_WIDTH, StartPoint.Y + editPoint.Y * SQUARE_HEIGHT + i);
@@ -233,7 +233,7 @@ namespace ConsoleSnake
 
 		private void RenderEntireSnake(IEnumerable<Point> snakeCoords, Corner facePosition)
 		{
-			Console.BackgroundColor = Snake.SNAKE_HEAD_COLOUR;
+			Console.BackgroundColor = Snake.SnakeHeadColour;
 			Point editPoint = snakeCoords.Last();
 			Console.SetCursorPosition(StartPoint.X + editPoint.X * SQUARE_WIDTH, StartPoint.Y + editPoint.Y * SQUARE_HEIGHT);
 			if (SQUARE_HEIGHT > 1)
@@ -268,7 +268,7 @@ namespace ConsoleSnake
 					Console.Write(Snake.FACE_TEXT.PadLeft(SQUARE_WIDTH));
 			}
 
-			Console.BackgroundColor = Snake.SNAKE_BODY_COLOUR;
+			Console.BackgroundColor = Snake.SnakeBodyColour;
 			for (int i = 0; i < snakeCoords.Count() - 1; i++)
 			{
 				editPoint = snakeCoords.ElementAt(i);

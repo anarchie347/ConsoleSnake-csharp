@@ -19,8 +19,14 @@ namespace ConsoleSnake
 
         private static void Start(string[] args)
         {
-
-
+            string executingDirectory = Environment.CurrentDirectory;
+            string[] filePaths = Directory.GetFiles(executingDirectory);
+            Console.WriteLine(executingDirectory);
+            filePaths = filePaths.Where(p => Path.GetExtension(p) == ".snake").ToArray();
+            foreach (string filePath in filePaths)
+            {
+                Console.WriteLine(filePath);
+            }
             //string? fruitCountStr = args.FirstOrDefault(arg => arg.StartsWith("--fruitcount="))?.Substring(13);
             //int fruitCount = 0;
             //if (fruitCountStr != null && !int.TryParse(fruitCountStr, out fruitCount))
@@ -39,7 +45,9 @@ namespace ConsoleSnake
                 FruitCount = ApplyBounds(ParseParameter(args, "fruitcount", 1), 1, 140),
                 Speed = ApplyBounds(ParseParameter(args, "speed", 7), 1, 100),
                 GridWidth = ApplyBounds(ParseParameter(args, "gridwidth", 12), 5, 30),
-                GridHeight = ApplyBounds(ParseParameter(args, "gridheight", 12), 5, 30)
+                GridHeight = ApplyBounds(ParseParameter(args, "gridheight", 12), 5, 30),
+                SnakeBodyColour = ApplyEnum<ConsoleColor>(ParseParameter(args, "snakebodycolour", "Blue")),
+                SnakeHeadColour = ApplyEnum<ConsoleColor>(ParseParameter(args, "snakeheadcolour", "DarkBlue")),
             };
             CheckConsoleSize(options.GridWidth, options.GridHeight, options.BasicScore);
             ClearConsoleSpace(Grid.SQUARE_HEIGHT * options.GridHeight + 3);
@@ -98,6 +106,17 @@ namespace ConsoleSnake
             if (max != null && number > max)
                 return max.Value;
             return number;
+        }
+
+        public static T ApplyEnum<T>(string value)
+        {
+            if (Enum.TryParse(typeof(T), value, out object? result))
+            {
+                if (result == null)
+                    throw new ArgumentException($"{value} was not a member of enum {typeof(T)} because it was null");
+                return (T)result;
+            }
+            throw new ArgumentException($"{value} was not a member of enum {typeof(T)}");
         }
 
         public static bool CheckForFlag(string[] args, string paramName, bool allowShort = true)
@@ -200,25 +219,25 @@ namespace ConsoleSnake
         //	{
         //		UpdateFaceValues(Direction.Right, ref faceTop, ref faceBottom);
         //		Console.SetCursorPosition(snakeCoords.Last().X * 4, snakeCoords.Last().Y * 2);
-        //		Console.BackgroundColor = SNAKE_HEAD_COLOUR;
+        //		Console.BackgroundColor = SnakeHeadColour;
         //		Console.WriteLine(faceTop);
         //		Console.SetCursorPosition(snakeCoords.Last().X * 4, snakeCoords.Last().Y * 2 + 1);
-        //		Console.BackgroundColor = SNAKE_HEAD_COLOUR;
+        //		Console.BackgroundColor = SnakeHeadColour;
         //		Console.WriteLine(faceBottom);
 
 
         //		Console.SetCursorPosition(snakeCoords[snakeCoords.Count - 3].X * 4, snakeCoords[snakeCoords.Count - 3].Y * 2);
-        //		Console.BackgroundColor = SNAKE_BODY_COLOUR;
+        //		Console.BackgroundColor = SnakeBodyColour;
         //		Console.WriteLine("    ");
         //		Console.SetCursorPosition(snakeCoords[snakeCoords.Count - 3].X * 4, snakeCoords[snakeCoords.Count - 3].Y * 2 + 1);
-        //		Console.BackgroundColor = SNAKE_BODY_COLOUR;
+        //		Console.BackgroundColor = SnakeBodyColour;
         //		Console.WriteLine("    ");
 
         //		Console.SetCursorPosition(snakeCoords[snakeCoords.Count - 2].X * 4, snakeCoords[snakeCoords.Count - 2].Y * 2);
-        //		Console.BackgroundColor = SNAKE_BODY_COLOUR;
+        //		Console.BackgroundColor = SnakeBodyColour;
         //		Console.WriteLine("    ");
         //		Console.SetCursorPosition(snakeCoords[snakeCoords.Count - 2].X * 4, snakeCoords[snakeCoords.Count - 2].Y * 2 + 1);
-        //		Console.BackgroundColor = SNAKE_BODY_COLOUR;
+        //		Console.BackgroundColor = SnakeBodyColour;
         //		Console.WriteLine("    ");
         //	}
 
@@ -227,17 +246,17 @@ namespace ConsoleSnake
         //		UpdateFaceValues(moveList.Last(), ref faceTop, ref faceBottom);
 
         //		Console.SetCursorPosition(snakeCoords.Last().X * 4, snakeCoords.Last().Y * 2);
-        //		Console.BackgroundColor = SNAKE_HEAD_COLOUR;
+        //		Console.BackgroundColor = SnakeHeadColour;
         //		Console.WriteLine(faceTop);
         //		Console.SetCursorPosition(snakeCoords.Last().X * 4, snakeCoords.Last().Y * 2 + 1);
-        //		Console.BackgroundColor = SNAKE_HEAD_COLOUR;
+        //		Console.BackgroundColor = SnakeHeadColour;
         //		Console.WriteLine(faceBottom);
 
         //		Console.SetCursorPosition(snakeCoords[snakeCoords.Count - 2].X * 4, snakeCoords[snakeCoords.Count - 2].Y * 2);
-        //		Console.BackgroundColor = SNAKE_BODY_COLOUR;
+        //		Console.BackgroundColor = SnakeBodyColour;
         //		Console.WriteLine("    ");
         //		Console.SetCursorPosition(snakeCoords[snakeCoords.Count - 2].X * 4, snakeCoords[snakeCoords.Count - 2].Y * 2 + 1);
-        //		Console.BackgroundColor = SNAKE_BODY_COLOUR;
+        //		Console.BackgroundColor = SnakeBodyColour;
         //		Console.WriteLine("    ");
 
 

@@ -16,8 +16,7 @@ namespace ConsoleSnake
         //public delegate void SnakeMoveEventHandler(object? sender, SnakeMovedEventArgs args);
         public event EventHandler SnakeMove;
 
-        public const ConsoleColor SNAKE_BODY_COLOUR = ConsoleColor.Blue;
-        public const ConsoleColor SNAKE_HEAD_COLOUR = ConsoleColor.DarkBlue;
+        
         public const string FACE_TEXT = "ಠ_ಠ";
 
         //[0] in list is tail, [count - 1] is head
@@ -36,14 +35,15 @@ namespace ConsoleSnake
         public Direction Direction { get; private set; }
         public bool IsFrozen { get { return !(timer?.Enabled ?? false); } }
         public bool Cheese { get; private set; }
+        public ConsoleColor SnakeBodyColour { get; set; }
+        public ConsoleColor SnakeHeadColour { get; set; }
 
 
         private System.Timers.Timer timer;
         private bool GrowOnNextTurn;
         private bool CheeseEndRemoveAlternator;
 
-
-        public Snake(List<Point> initalSnake, int moveDelay, bool cheese)
+        public Snake(List<Point> initalSnake, int moveDelay, bool cheese, ConsoleColor snakeBodyColour = ConsoleColor.Blue, ConsoleColor snakeHeadColour = ConsoleColor.DarkBlue)
         {
             coords = initalSnake;
             hiddenCheeseCoords = new List<Point>();
@@ -53,6 +53,8 @@ namespace ConsoleSnake
             Direction = Direction.Right;
             FacePosition = Corner.TopRight;
             Cheese = cheese;
+            SnakeBodyColour = snakeBodyColour;
+            SnakeHeadColour = snakeHeadColour;
             
 
             for (int i = 0; i < initalSnake.Count - 1; i++)
@@ -167,40 +169,18 @@ namespace ConsoleSnake
             {
                 case Direction.Up:
                     coords.Add(new Point(currentHeadPos.X, currentHeadPos.Y - 1));
-
-                    if (FacePosition == Corner.BottomLeft)
-                        FacePosition = Corner.TopLeft;
-                    else if (FacePosition == Corner.BottomRight)
-                        FacePosition = Corner.TopRight;
                     break;
                 case Direction.Right:
                     coords.Add(new Point(currentHeadPos.X + 1, currentHeadPos.Y));
-
-                    if (FacePosition == Corner.BottomLeft)
-                        FacePosition = Corner.BottomRight;
-                    else if (FacePosition == Corner.TopLeft)
-                        FacePosition = Corner.TopRight;
-
                     break;
                 case Direction.Down:
                     coords.Add(new Point(currentHeadPos.X, currentHeadPos.Y + 1));
-
-                    if (FacePosition == Corner.TopLeft)
-                        FacePosition = Corner.BottomLeft;
-                    else if (FacePosition == Corner.TopRight)
-                        FacePosition = Corner.BottomRight;
-
                     break;
                 case Direction.Left:
                     coords.Add(new Point(currentHeadPos.X - 1, currentHeadPos.Y));
-
-                    if (FacePosition == Corner.BottomRight)
-                        FacePosition = Corner.BottomLeft;
-                    else if (FacePosition == Corner.TopRight)
-                        FacePosition = Corner.TopLeft;
-
                     break;
             }
+            FacePosition = FacePosition.Move(Direction);
             BehindHeadCoords = currentHeadPos;
             //Point behindheadCoords = coords[coords.Count - 2];
             if (Cheese && (currentHeadPos.X % 2 == currentHeadPos.Y % 2))
