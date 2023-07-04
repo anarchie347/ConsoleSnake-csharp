@@ -66,7 +66,7 @@ namespace ConsoleSnake
 			snake.Freeze();
 			foreach (Fruit f in Fruit)
 			{
-				f.NewLocation(snake.Coords, new Point[] { snake.BehindSnakeCoords }, Fruit.Select(f => f.Location));
+				f.NewLocation(snake.Coords, new Point[] { snake.BehindSnakeCoords }, Fruit.Select(f => f.Location), snake.HiddenCheeseCoords);
 				f.OutputFruit(new Size(SQUARE_WIDTH, SQUARE_HEIGHT), StartPoint);
 			}
 			if (pacifist)
@@ -104,6 +104,7 @@ namespace ConsoleSnake
 		public void StopSnake(bool ReOutputGrid)
 		{
 			Snake?.Freeze();
+			if (ReOutputGrid)
                 OutputGrid();
 				
 		}
@@ -126,7 +127,7 @@ namespace ConsoleSnake
 				if (snake.Coords.Last() == f.Location)
 				{
 					snake.Grow();
-					f.NewLocation(snake.Coords, new Point[] { snake.BehindSnakeCoords }, Fruit.Select(f => f.Location));
+					f.NewLocation(snake.Coords, new Point[] { snake.BehindSnakeCoords }, Fruit.Select(f => f.Location), snake.HiddenCheeseCoords);
 					f.OutputFruit(new Size(SQUARE_WIDTH, SQUARE_HEIGHT), StartPoint);
 					FruitEaten?.Invoke(this, EventArgs.Empty);
 				}

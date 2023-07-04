@@ -22,9 +22,11 @@ namespace ConsoleSnake
 
         //[0] in list is tail, [count - 1] is head
         public ReadOnlyCollection<Point> Coords { get { return Array.AsReadOnly(coords.ToArray()); } }
+        public ReadOnlyCollection<Point> HiddenCheeseCoords { get { return Array.AsReadOnly(hiddenCheeseCoords.ToArray()); } }
         public ReadOnlyCollection<Direction> MoveList { get { return Array.AsReadOnly(moveList.ToArray()); } }
 
         private List<Point> coords;
+        private List<Point> hiddenCheeseCoords;
         private List<Direction> moveList;
 
         public Point BehindSnakeCoords { get; private set; }
@@ -44,6 +46,9 @@ namespace ConsoleSnake
         public Snake(List<Point> initalSnake, int moveDelay, bool cheese)
         {
             coords = initalSnake;
+            hiddenCheeseCoords = new List<Point>();
+            if (cheese)
+                CheesifySnake(coords, hiddenCheeseCoords);
             moveList = new List<Direction>();
             Direction = Direction.Right;
             FacePosition = Corner.TopRight;
@@ -123,17 +128,38 @@ namespace ConsoleSnake
 
         private void SnakeTimerTick()
         {
+
+
+            //if (!(GrowOnNextTurn || (CheeseEndRemoveAlternator && Cheese)))
+            //{
+            //    BehindSnakeCoords = coords[0];
+            //    coords.RemoveAt(0);
+            //}
+            //if (!GrowOnNextTurn)
+            //    CheeseEndRemoveAlternator = !CheeseEndRemoveAlternator;
             if (!GrowOnNextTurn)
-            { } //remove
-
-
-            if (!(GrowOnNextTurn || (CheeseEndRemoveAlternator && Cheese)))
             {
-                BehindSnakeCoords = coords[0];
-                coords.RemoveAt(0);
+                if (Cheese)
+                {
+                    if (CheeseEndRemoveAlternator)
+                    {
+                        BehindSnakeCoords = hiddenCheeseCoords[0];
+                        hiddenCheeseCoords.RemoveAt(0);
+                    }
+                    else
+                    {
+                        BehindSnakeCoords = coords[0];
+                        coords.RemoveAt(0);
+                    }
+                    CheeseEndRemoveAlternator = !CheeseEndRemoveAlternator;
+
+                }
+                else
+                {
+                    BehindSnakeCoords = coords[0];
+                    coords.RemoveAt(0);
+                }
             }
-            if (!GrowOnNextTurn)
-                CheeseEndRemoveAlternator = !CheeseEndRemoveAlternator;
             GrowOnNextTurn = false;
 
             Point currentHeadPos = coords.Last();
@@ -178,10 +204,24 @@ namespace ConsoleSnake
             BehindHeadCoords = currentHeadPos;
             //Point behindheadCoords = coords[coords.Count - 2];
             if (Cheese && (currentHeadPos.X % 2 == currentHeadPos.Y % 2))
+            {
+                hiddenCheeseCoords.Add(coords[coords.Count - 2]);
                 coords.RemoveAt(coords.Count - 2);
-            
+            }
             moveList.Add(Direction);
             SnakeMove?.Invoke(this, EventArgs.Empty);
+        }
+
+        private static void CheesifySnake(List<Point> coords, List<Point> hidden)
+        {
+            for (int i = coords.Count - 1; i > -1; i--)
+            {
+                if (coords[i].X % 2 == coords[i].Y % 2)
+                {
+                    hidden.Add(coords[i]);
+                    coords.RemoveAt(i);
+                }
+            }
         }
     }
 

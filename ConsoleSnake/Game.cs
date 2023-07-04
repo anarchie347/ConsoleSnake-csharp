@@ -23,26 +23,13 @@ namespace ConsoleSnake
 
 			List<Point> initialSnakeCoords;
 
-			if (options.Cheese)
-			{
-                initialSnakeCoords = new()
-                {
-                    new Point(2, grid.Dimensions.Height / 2 - 1),
-                    new Point(4, grid.Dimensions.Height / 2 - 1),
-
-                    new Point(6, grid.Dimensions.Height / 2 - 1),
-                    new Point(8, grid.Dimensions.Height / 2 - 1),
-                };
-            } else
-			{
-                initialSnakeCoords = new()
-                {
-                    new Point(1, grid.Dimensions.Height / 2 - 1),
-                    new Point(2, grid.Dimensions.Height / 2 - 1),
-                    new Point(3, grid.Dimensions.Height / 2 - 1),
-                    new Point(4, grid.Dimensions.Height / 2 - 1),
-                };
-            }
+            initialSnakeCoords = new()
+            {
+				new Point(1, grid.Dimensions.Height / 2 - 1),
+                new Point(2, grid.Dimensions.Height / 2 - 1),
+                new Point(3, grid.Dimensions.Height / 2 - 1),
+                new Point(4, grid.Dimensions.Height / 2 - 1),
+            };
             grid.AddSnake(new Snake(initialSnakeCoords, 1000 / options.Speed, options.Cheese), options.Pacifist, options.Cheese);
 
             
