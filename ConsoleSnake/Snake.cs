@@ -117,6 +117,7 @@ namespace ConsoleSnake
         public void Unfreeze()
         {
             timer.Start();
+            SnakeTimerTick();
         }
 
         public void SetHeadPosition(Point newLocation)
@@ -204,15 +205,4 @@ namespace ConsoleSnake
             }
         }
     }
-
-    //internal class SnakeMovedEventArgs : EventArgs
-    //{
-    //    public List<Point> Coords { get; set; }
-    //    public Point BehindSnake { get; set; }
-    //    public SnakeMovedEventArgs(List<Point> coords, Point behindSnake)
-    //    {
-    //        Coords = coords;
-    //        BehindSnake = behindSnake;
-    //    }
-    //}
 }
