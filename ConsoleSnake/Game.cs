@@ -51,7 +51,7 @@ namespace ConsoleSnake
 			
 			if (!Options.Debug)
 			{
-                Console.ReadKey(true);
+                ChangeDirection(Console.ReadKey(true).Key);
                 Grid.StartSnake();
             }
 			int numberOfDebugMessagesOutput = 0;
@@ -64,41 +64,8 @@ namespace ConsoleSnake
 				{
 					
 					ConsoleKey key = Console.ReadKey(true).Key;
-
-					switch (key)
-					{
-						case ConsoleKey.Escape:
-							EndGame();
-							break;
-						case ConsoleKey.Spacebar:
-							if (Grid.IsSnakeFrozen)
-							{
-                                Grid.StartSnake();
-                            }
-							else
-							{
-                                Grid.StopSnake(true);
-								Score.ReOutputScore();
-                            }
-								
-							break;
-						case ConsoleKey.UpArrow:
-						case ConsoleKey.W:
-                            Grid.ChangeSnakeDirection(Direction.Up, Options.Muted);
-							break;
-						case ConsoleKey.RightArrow:
-						case ConsoleKey.D:
-                            Grid.ChangeSnakeDirection(Direction.Right, Options.Muted);
-							break;
-						case ConsoleKey.DownArrow:
-						case ConsoleKey.S:
-                            Grid.ChangeSnakeDirection(Direction.Down, Options.Muted);
-							break;
-						case ConsoleKey.LeftArrow:
-						case ConsoleKey.A:
-                            Grid.ChangeSnakeDirection(Direction.Left, Options.Muted);
-							break;
-					}
+                    ChangeDirection(key);
+					
                     if (Options.Debug)
                     {
 						if (key == ConsoleKey.Backspace)
@@ -123,6 +90,44 @@ namespace ConsoleSnake
                 }
 			}
 		}
+
+		private void ChangeDirection(ConsoleKey key)
+		{
+            switch (key)
+            {
+                case ConsoleKey.Escape:
+                    EndGame();
+                    break;
+                case ConsoleKey.Spacebar:
+                    if (Grid.IsSnakeFrozen)
+                    {
+                        Grid.StartSnake();
+                    }
+                    else
+                    {
+                        Grid.StopSnake(true);
+                        Score.ReOutputScore();
+                    }
+
+                    break;
+                case ConsoleKey.UpArrow:
+                case ConsoleKey.W:
+                    Grid.ChangeSnakeDirection(Direction.Up, Options.Muted);
+                    break;
+                case ConsoleKey.RightArrow:
+                case ConsoleKey.D:
+                    Grid.ChangeSnakeDirection(Direction.Right, Options.Muted);
+                    break;
+                case ConsoleKey.DownArrow:
+                case ConsoleKey.S:
+                    Grid.ChangeSnakeDirection(Direction.Down, Options.Muted);
+                    break;
+                case ConsoleKey.LeftArrow:
+                case ConsoleKey.A:
+                    Grid.ChangeSnakeDirection(Direction.Left, Options.Muted);
+                    break;
+            }
+        }
 
 		private void DebugMessage(ConsoleKey lastKey, int numberOfDebugMessagesOutput)
 		{
