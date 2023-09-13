@@ -10,23 +10,23 @@ This was originally written in VB.NET, but I am now converting, refactoring and 
 ## Flags
 can either be added to the command as --\<flagname> or -\<first letter of name>
 
-quickexit: Exits immediatley and clears the console buffer when the program ends
+- quickexit: Exits immediatley and clears the console buffer when the program ends
 
-basicscore: using a more basic score output. Useful if the console isnt able to update fast enough for the more visual score output
+- basicscore: using a more basic score output. Useful if the console isnt able to update fast enough for the more visual score output
 
-pacifist: makes the snake invulnerable. It can cross over itslef and wrap around the map
+- pacifist: makes the snake invulnerable. It can cross over itslef and wrap around the map
 
-muted: mutes the sounds effects
+- muted: mutes the sounds effects
 
-cheese: the snake has holes in it
+- cheese: the snake has holes in it
 
 ## Parameters
 given in the form --\<parameter name>=\<value>
 
-fruitcount (integer): sets the amount of fruit to be available at once
+- fruitcount (integer): sets the amount of fruit to be available at once
 
-speed (integer): sets the speed of the snake. Measured in tiles/second
+- speed (integer): sets the speed of the snake. Measured in tiles/second
 
-gridheight (integer): sets the height of the grid
+- gridheight (integer): sets the height of the grid
 
-gridwidth (integer): sets the width of the grid
+- gridwidth (integer): sets the width of the grid
