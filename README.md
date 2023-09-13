@@ -18,6 +18,8 @@ pacifist: makes the snake invulnerable. It can cross over itslef and wrap around
 
 muted: mutes the sounds effects
 
+cheese: the snake has holes in it
+
 ## Parameters
 given in the form --\<parameter name>=\<value>
 
