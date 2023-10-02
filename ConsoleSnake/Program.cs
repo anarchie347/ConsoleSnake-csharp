@@ -34,9 +34,13 @@ namespace ConsoleSnake
 				HelpMenu();
 				return;
 			}
-			Options options = getOptions(args);
+			Options options = GetOptions(args);
 
-			
+			if (!CheckAppleCountGridSize(options))
+			{
+				Console.WriteLine($"Error, cannot have {options.FruitCount} fruit in a {options.GridWidth}x{options.GridHeight} grid, ther eis not enough room");
+				return;
+			}
 			CheckConsoleSize(options.GridWidth, options.GridHeight, options.BasicScore);
 			ClearConsoleSpace(Grid.SQUARE_HEIGHT * options.GridHeight + 3);
 			//int fruitCount = Math.Max(1, ParseParameter(args, "fruitcount", 1));
@@ -45,7 +49,7 @@ namespace ConsoleSnake
 			_ = new Game(options);
 		}
 
-		private static Options getOptions(string[] args)
+		private static Options GetOptions(string[] args)
 		{
 			if (CheckForFlag(args, "random")) {
 				Random r = new();
@@ -88,6 +92,18 @@ namespace ConsoleSnake
             }
             
         }
+
+		private static bool CheckAppleCountGridSize(Options options)
+		{
+			int gridArea = options.GridHeight * options.GridWidth;
+			int startSnakeSize = 4;
+			gridArea -= startSnakeSize;
+			if (gridArea <= options.FruitCount)
+			{
+				return false;
+			}
+			return true;
+		}
 		private static void CheckConsoleSize(int gridWidth, int gridHeight, bool basicScoring)
 		{
 			int minWidth;
