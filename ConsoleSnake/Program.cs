@@ -39,7 +39,7 @@ namespace ConsoleSnake
 				BasicScore = CheckForFlag(args, "basicscore"),
 				QuickExit = CheckForFlag(args, "quickexit"),
 				Pacifist = CheckForFlag(args, "pacifist"),
-				Muted = CheckForFlag(args, "muted"),
+				Muted = CheckForFlag(args, "mute"),
 				Cheese = CheckForFlag(args, "cheese"),
 				Debug = CheckForFlag(args, "debug"),
 
