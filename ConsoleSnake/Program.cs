@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using System.Net;
 using static System.Net.WebRequestMethods;
 
 namespace ConsoleSnake
@@ -32,24 +33,10 @@ namespace ConsoleSnake
 			{
 				HelpMenu();
 				return;
-
 			}
-			Options options = new()
-			{
-				BasicScore = CheckForFlag(args, "basicscore"),
-				QuickExit = CheckForFlag(args, "quickexit"),
-				Pacifist = CheckForFlag(args, "pacifist"),
-				Muted = CheckForFlag(args, "mute"),
-				Cheese = CheckForFlag(args, "cheese"),
-				Debug = CheckForFlag(args, "debug"),
+			Options options = getOptions(args);
 
-				FruitCount = ApplyBounds(ParseParameter(args, "fruitcount", 1), 1, 140),
-				Speed = ApplyBounds(ParseParameter(args, "speed", 7), 1, 100),
-				GridWidth = ApplyBounds(ParseParameter(args, "gridwidth", 12), 5, 30),
-				GridHeight = ApplyBounds(ParseParameter(args, "gridheight", 12), 5, 30),
-				SnakeBodyColour = ApplyEnum<ConsoleColor>(ParseParameter(args, "snakebodycolour", "Blue")),
-				SnakeHeadColour = ApplyEnum<ConsoleColor>(ParseParameter(args, "snakeheadcolour", "DarkBlue")),
-			};
+			
 			CheckConsoleSize(options.GridWidth, options.GridHeight, options.BasicScore);
 			ClearConsoleSpace(Grid.SQUARE_HEIGHT * options.GridHeight + 3);
 			//int fruitCount = Math.Max(1, ParseParameter(args, "fruitcount", 1));
@@ -58,6 +45,49 @@ namespace ConsoleSnake
 			_ = new Game(options);
 		}
 
+		private static Options getOptions(string[] args)
+		{
+			if (CheckForFlag(args, "random")) {
+				Random r = new();
+                return new Options()
+                {
+                    BasicScore = CheckForFlag(args, "basicscore"),
+                    QuickExit = CheckForFlag(args, "quickexit"),
+                    Pacifist = r.Next(0,2) == 1,
+                    Muted = CheckForFlag(args, "mute"),
+                    Cheese = r.Next(0, 2) == 1,
+                    Debug = CheckForFlag(args, "debug"),
+
+
+                    FruitCount = r.Next(1, 141),
+                    Speed = r.Next(1,101),
+                    GridWidth = r.Next(5,31),
+                    GridHeight = r.Next(5, 31),
+                    SnakeBodyColour = (ConsoleColor)r.Next(0,16),
+                    SnakeHeadColour = (ConsoleColor)r.Next(0, 16),
+                };
+            } else
+			{
+                return new Options()
+                {
+                    BasicScore = CheckForFlag(args, "basicscore"),
+                    QuickExit = CheckForFlag(args, "quickexit"),
+                    Pacifist = CheckForFlag(args, "pacifist"),
+                    Muted = CheckForFlag(args, "mute"),
+                    Cheese = CheckForFlag(args, "cheese"),
+                    Debug = CheckForFlag(args, "debug"),
+
+
+                    FruitCount = ApplyBounds(ParseParameter(args, "fruitcount", 1), 1, 140),
+                    Speed = ApplyBounds(ParseParameter(args, "speed", 7), 1, 100),
+                    GridWidth = ApplyBounds(ParseParameter(args, "gridwidth", 12), 5, 30),
+                    GridHeight = ApplyBounds(ParseParameter(args, "gridheight", 12), 5, 30),
+                    SnakeBodyColour = ApplyEnum<ConsoleColor>(ParseParameter(args, "snakebodycolour", "Blue")),
+                    SnakeHeadColour = ApplyEnum<ConsoleColor>(ParseParameter(args, "snakeheadcolour", "DarkBlue")),
+                };
+            }
+            
+        }
 		private static void CheckConsoleSize(int gridWidth, int gridHeight, bool basicScoring)
 		{
 			int minWidth;
