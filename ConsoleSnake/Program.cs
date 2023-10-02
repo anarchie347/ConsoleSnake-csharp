@@ -53,7 +53,11 @@ namespace ConsoleSnake
 		{
 			if (CheckForFlag(args, "random")) {
 				Random r = new();
-                return new Options()
+
+				int gridWidth = r.Next(5, 31);
+				int gridHeight = r.Next(5, 31);
+
+				return new Options()
                 {
                     BasicScore = CheckForFlag(args, "basicscore"),
                     QuickExit = CheckForFlag(args, "quickexit"),
@@ -63,7 +67,7 @@ namespace ConsoleSnake
                     Debug = CheckForFlag(args, "debug"),
 
 
-                    FruitCount = r.Next(1, 141),
+                    FruitCount = r.Next(1, gridWidth * gridHeight - 3),
                     Speed = r.Next(1,101),
                     GridWidth = r.Next(5,31),
                     GridHeight = r.Next(5, 31),
