@@ -10,13 +10,15 @@ This was originally written in VB.NET, but I am now converting, refactoring and 
 ## Flags
 can either be added to the command as --\<flagname> or -\<first letter of name>
 
+- help: Displays info about the command, can also be run using ? as an arguement
+
 - quickexit: Exits immediatley and clears the console buffer when the program ends
 
 - basicscore: using a more basic score output. Useful if the console isnt able to update fast enough for the more visual score output
 
 - pacifist: makes the snake invulnerable. It can cross over itslef and wrap around the map
 
-- muted: mutes the sounds effects
+- mute: mutes the sounds effects
 
 - cheese: the snake has holes in it
 
