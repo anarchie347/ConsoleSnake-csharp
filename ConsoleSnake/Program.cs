@@ -21,13 +21,6 @@ namespace ConsoleSnake
 
 		private static void Start(string[] args)
 		{
-
-			//string? fruitCountStr = args.FirstOrDefault(arg => arg.StartsWith("--fruitcount="))?.Substring(13);
-			//int fruitCount = 0;
-			//if (fruitCountStr != null && !int.TryParse(fruitCountStr, out fruitCount))
-			//	throw new ArgumentException($"'{fruitCountStr}' was not an integer {fruitCount}");
-			//if (fruitCount == 0)
-			//	fruitCount = 1;
 			Random r = new Random();
 			if (args.Contains("-h") || args.Contains("?") || args.Contains("--help"))
 			{
@@ -78,10 +71,10 @@ namespace ConsoleSnake
                     Debug = CheckForFlag(args, "debug"),
 
 
-                    FruitCount = r.Next(1, gridWidth * gridHeight - 3),
+                    FruitCount = r.Next(1, gridWidth * gridHeight - 5),
                     Speed = r.Next(1,101),
-                    GridWidth = r.Next(5,31),
-                    GridHeight = r.Next(5, 31)
+                    GridWidth = gridWidth,
+                    GridHeight = gridHeight
                 };
             } else
 			{
