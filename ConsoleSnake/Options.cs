@@ -23,6 +23,37 @@ namespace ConsoleSnake
         public int GridHeight { get; init; }
         public ConsoleColor SnakeBodyColour { get; init; }
         public ConsoleColor SnakeHeadColour { get ; init; }
+    }
+
+    internal struct ColourOptions
+    {
+        public Colour SnakeBody { get; init; }
+        public Colour SnakeHead { get; init; }
+        public Colour Fruit { get; init; }
+        public Colour Background1 { get; init; }
+        public Colour Background2 { get; init; }
+    }
+
+    internal enum Colour
+    {
+        Black = ConsoleColor.Black,
+        DarkBlue = ConsoleColor.DarkBlue,
+        DarkGreen = ConsoleColor.DarkGreen,
+        DarkCyan = ConsoleColor.DarkCyan,
+        DarkRed = ConsoleColor.DarkRed,
+        DarkMagenta = ConsoleColor.DarkMagenta,
+        DarkYellow = ConsoleColor.DarkYellow,
+        Grey = ConsoleColor.Gray,
+        DarkGrey = ConsoleColor.DarkGray,
+        Blue = ConsoleColor.Blue,
+        Green = ConsoleColor.Green,
+        Cyan = ConsoleColor.Cyan,
+        Red = ConsoleColor.Red,
+        Magenta = ConsoleColor.Magenta,
+        Yellow = ConsoleColor.Yellow,
+        White = ConsoleColor.White,
+        Rainbow = 16
 
     }
+
 }

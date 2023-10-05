@@ -16,10 +16,10 @@ namespace ConsoleSnake
 		private Options Options;
 
 
-        public Game(Options options)
+        public Game(Options options, ColourOptions colours)
 		{
 			Options = options;
-            Grid grid = new(new Size(options.GridWidth, options.GridHeight), new Point(Console.CursorLeft, Console.CursorTop), options.FruitCount);
+            Grid grid = new(new Size(options.GridWidth, options.GridHeight), new Point(Console.CursorLeft, Console.CursorTop), options.FruitCount, colours);
 
 			List<Point> initialSnakeCoords;
 

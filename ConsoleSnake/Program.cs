@@ -28,12 +28,13 @@ namespace ConsoleSnake
 			//	throw new ArgumentException($"'{fruitCountStr}' was not an integer {fruitCount}");
 			//if (fruitCount == 0)
 			//	fruitCount = 1;
-
+			Random r = new Random();
 			if (args.Contains("-h") || args.Contains("?") || args.Contains("--help"))
 			{
 				HelpMenu();
 				return;
 			}
+			ColourOptions colours = GetColours(args);
 			Options options = GetOptions(args);
 
 			if (!CheckAppleCountGridSize(options))
@@ -46,9 +47,19 @@ namespace ConsoleSnake
 			//int fruitCount = Math.Max(1, ParseParameter(args, "fruitcount", 1));
 			//int speed = 1000 / Math.Max(1, ParseParameter(args, "speed", 7));
 
-			_ = new Game(options);
+			_ = new Game(options, colours);
 		}
-
+		private static ColourOptions GetColours(string[] args)
+		{
+			return new ColourOptions
+			{
+				SnakeHead = Colour.Magenta,
+				SnakeBody = Colour.Magenta,
+				Background1 = Colour.Rainbow,
+				Background2 = Colour.Green,
+				Fruit = Colour.Magenta
+			};
+		}
 		private static Options GetOptions(string[] args)
 		{
 			if (CheckForFlag(args, "random")) {

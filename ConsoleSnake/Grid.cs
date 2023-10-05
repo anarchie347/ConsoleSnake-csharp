@@ -10,9 +10,9 @@ namespace ConsoleSnake
 	{
 		public event EventHandler FruitEaten;
 		public event EventHandler SnakeDied;
-		public const ConsoleColor BACKGROUND_COLOUR_1 = ConsoleColor.Green;
-		public const ConsoleColor BACKGROUND_COLOUR_2 = ConsoleColor.DarkGreen;
-
+		//public const ConsoleColor BACKGROUND_COLOUR_1 = ConsoleColor.Green;
+		//public const ConsoleColor BACKGROUND_COLOUR_2 = ConsoleColor.DarkGreen;
+		private ColourOptions Colours;
 		//do not change these because graphics use these values
 		public const int SQUARE_HEIGHT = 2;
 		public const int SQUARE_WIDTH = 4;
@@ -20,6 +20,7 @@ namespace ConsoleSnake
 		public Size Dimensions { get;}
 		public Point StartPoint { get;}
 		private Snake? Snake;
+		private Random rand;
 
 		public bool IsSnakeFrozen { get { return Snake?.IsFrozen ?? false; } }
 		public ReadOnlyCollection<Point> SnakeCoords { get { return Snake.Coords; } }
@@ -27,11 +28,13 @@ namespace ConsoleSnake
 
 		private readonly Fruit[] Fruit;
 
-		public Grid(Size dimensions, Point startPoint, int fruitCount)
+		public Grid(Size dimensions, Point startPoint, int fruitCount, ColourOptions colours)
 		{
 			Dimensions = dimensions;
 			StartPoint = startPoint;
+			Colours = colours;
 			Fruit = new Fruit[fruitCount];
+			rand = new Random();
 			for (int i = 0; i < fruitCount; i++)
 			{
 				Fruit[i] = new(dimensions);
@@ -40,14 +43,20 @@ namespace ConsoleSnake
 
 		public void OutputGrid()
 		{
+			ConsoleColor[] rowColours;
 			for (int i = 0; i < Dimensions.Height; i++)
 			{
+				rowColours = new ConsoleColor[Dimensions.Width];
 				for (int j = 0; j < SQUARE_HEIGHT; j++)
 				{
 					Console.SetCursorPosition(StartPoint.X, StartPoint.Y + i * SQUARE_HEIGHT + j);
 					for (int k = 0; k < Dimensions.Width; k++)
 					{
-						Console.BackgroundColor = GetSquareBackgroundColour(i,k);
+						if (j == 0) //makes sure that the cell colour is only decided once, and this value is used for all rows drawing that cell
+						{
+							rowColours[k] = GetSquareBackgroundColour(i, k);
+						}
+						Console.BackgroundColor = rowColours[k];
 						Console.Write(SQUARE_LINE_TEXT);
 					}
 					
@@ -280,13 +289,18 @@ namespace ConsoleSnake
 			}
 		}
 
-		private static ConsoleColor GetSquareBackgroundColour(Point p)
+		private ConsoleColor GetSquareBackgroundColour(Point p)
 		{
 			return GetSquareBackgroundColour(p.X, p.Y);
         }
-		private static ConsoleColor GetSquareBackgroundColour(int x, int y)
+		private ConsoleColor GetSquareBackgroundColour(int x, int y)
 		{
-            return (x % 2 == y % 2) ? BACKGROUND_COLOUR_1 : BACKGROUND_COLOUR_2;
+            return (x % 2 == y % 2) ? GetConsoleColor(Colours.Background1, rand) : GetConsoleColor(Colours.Background2, rand);
         }
+
+		private static ConsoleColor GetConsoleColor(Colour colour, Random r)
+		{
+			return (ConsoleColor)((int)colour < 16 ? (int)colour : r.Next(0, 16));
+		}
 	}
 }
