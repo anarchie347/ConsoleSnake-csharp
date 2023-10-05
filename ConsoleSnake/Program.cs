@@ -53,12 +53,12 @@ namespace ConsoleSnake
 		{
 			return new ColourOptions
 			{
-				SnakeHead = Colour.Rainbow,
-				SnakeBody = Colour.Rainbow,
-				Background1 = Colour.Black,
-				Background2 = Colour.Green,
-				Fruit = Colour.Rainbow
-			};
+				SnakeHead = ApplyEnum<Colour>(ParseParameter(args, "snakeheadcolour", "DarkBlue")),
+				SnakeBody = ApplyEnum<Colour>(ParseParameter(args, "snakebodycolour", "Blue")),
+				Background1 = ApplyEnum<Colour>(ParseParameter(args, "background1colour", "Green")),
+				Background2 = ApplyEnum<Colour>(ParseParameter(args, "background2colour", "DarkGreen")),
+				Fruit = ApplyEnum<Colour>(ParseParameter(args, "fruitcolour", "Red"))
+            };
 		}
 		private static Options GetOptions(string[] args)
 		{
@@ -81,9 +81,7 @@ namespace ConsoleSnake
                     FruitCount = r.Next(1, gridWidth * gridHeight - 3),
                     Speed = r.Next(1,101),
                     GridWidth = r.Next(5,31),
-                    GridHeight = r.Next(5, 31),
-                    SnakeBodyColour = (ConsoleColor)r.Next(0,16),
-                    SnakeHeadColour = (ConsoleColor)r.Next(0, 16),
+                    GridHeight = r.Next(5, 31)
                 };
             } else
 			{
@@ -100,9 +98,7 @@ namespace ConsoleSnake
                     FruitCount = ApplyBounds(ParseParameter(args, "fruitcount", 1), 1, 140),
                     Speed = ApplyBounds(ParseParameter(args, "speed", 7), 1, 100),
                     GridWidth = ApplyBounds(ParseParameter(args, "gridwidth", 12), 5, 30),
-                    GridHeight = ApplyBounds(ParseParameter(args, "gridheight", 12), 5, 30),
-                    SnakeBodyColour = ApplyEnum<ConsoleColor>(ParseParameter(args, "snakebodycolour", "Blue")),
-                    SnakeHeadColour = ApplyEnum<ConsoleColor>(ParseParameter(args, "snakeheadcolour", "DarkBlue")),
+                    GridHeight = ApplyBounds(ParseParameter(args, "gridheight", 12), 5, 30)
                 };
             }
             
