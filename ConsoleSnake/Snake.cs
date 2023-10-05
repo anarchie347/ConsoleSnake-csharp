@@ -35,15 +35,15 @@ namespace ConsoleSnake
         public Direction Direction { get; private set; }
         public bool IsFrozen { get { return !(timer?.Enabled ?? false); } }
         public bool Cheese { get; private set; }
-        public ConsoleColor SnakeBodyColour { get; set; }
-        public ConsoleColor SnakeHeadColour { get; set; }
+        public Colour SnakeBodyColour { get; set; }
+        public Colour SnakeHeadColour { get; set; }
 
 
         private System.Timers.Timer timer;
         private bool GrowOnNextTurn;
         private bool CheeseEndRemoveAlternator;
 
-        public Snake(List<Point> initalSnake, int moveDelay, bool cheese, ConsoleColor snakeBodyColour = ConsoleColor.Blue, ConsoleColor snakeHeadColour = ConsoleColor.DarkBlue)
+        public Snake(List<Point> initalSnake, int moveDelay, bool cheese, Colour snakeBodyColour, Colour snakeHeadColour)
         {
             coords = initalSnake;
             hiddenCheeseCoords = new List<Point>();

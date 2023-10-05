@@ -53,9 +53,9 @@ namespace ConsoleSnake
 		{
 			return new ColourOptions
 			{
-				SnakeHead = Colour.Magenta,
-				SnakeBody = Colour.Magenta,
-				Background1 = Colour.Rainbow,
+				SnakeHead = Colour.Rainbow,
+				SnakeBody = Colour.Rainbow,
+				Background1 = Colour.Black,
 				Background2 = Colour.Green,
 				Fruit = Colour.Magenta
 			};

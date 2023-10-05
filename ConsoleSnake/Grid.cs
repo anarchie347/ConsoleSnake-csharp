@@ -174,6 +174,7 @@ namespace ConsoleSnake
 			Corner facePosition = snake.FacePosition;
 			//[0] in list is tail, [count - 1] is head
 			Point editPoint = snake.BehindSnakeCoords;
+			//behind tail
 			if (!snakeCoords.Contains(editPoint))
 			{
 				Console.BackgroundColor = GetSquareBackgroundColour(editPoint);
@@ -183,7 +184,8 @@ namespace ConsoleSnake
 					Console.WriteLine(SQUARE_LINE_TEXT);
 				}
 			}
-			Console.BackgroundColor = Snake.SnakeHeadColour;
+			//head
+			Console.BackgroundColor = GetConsoleColor(Snake.SnakeHeadColour, rand);
 			editPoint = snakeCoords.Last();
 			Console.SetCursorPosition(StartPoint.X + editPoint.X * SQUARE_WIDTH, StartPoint.Y + editPoint.Y * SQUARE_HEIGHT);
 			if (SQUARE_HEIGHT > 1)
@@ -228,9 +230,9 @@ namespace ConsoleSnake
                 }
             }
 
-
+			//point behind head
             editPoint = snakeCoords[snakeCoords.Count() - 2];
-            Console.BackgroundColor = Snake.SnakeBodyColour;
+            Console.BackgroundColor = GetConsoleColor(Snake.SnakeBodyColour, rand);
 			for (int i = 0; i < SQUARE_HEIGHT; i++)
 			{
 				Console.SetCursorPosition(StartPoint.X + editPoint.X * SQUARE_WIDTH, StartPoint.Y + editPoint.Y * SQUARE_HEIGHT + i);
@@ -242,9 +244,10 @@ namespace ConsoleSnake
 
 		private void RenderEntireSnake(IEnumerable<Point> snakeCoords, Corner facePosition)
 		{
-			Console.BackgroundColor = Snake.SnakeHeadColour;
+			Console.BackgroundColor = GetConsoleColor(Snake.SnakeHeadColour, rand);
 			Point editPoint = snakeCoords.Last();
 			Console.SetCursorPosition(StartPoint.X + editPoint.X * SQUARE_WIDTH, StartPoint.Y + editPoint.Y * SQUARE_HEIGHT);
+			//head
 			if (SQUARE_HEIGHT > 1)
 			{
 
@@ -276,11 +279,12 @@ namespace ConsoleSnake
 				else
 					Console.Write(Snake.FACE_TEXT.PadLeft(SQUARE_WIDTH));
 			}
-
-			Console.BackgroundColor = Snake.SnakeBodyColour;
+			//rest of snake
+			
 			for (int i = 0; i < snakeCoords.Count() - 1; i++)
 			{
-				editPoint = snakeCoords.ElementAt(i);
+                Console.BackgroundColor = GetConsoleColor(Snake.SnakeBodyColour, rand);
+                editPoint = snakeCoords.ElementAt(i);
 				for (int j = 0; j < SQUARE_HEIGHT; j++)
 				{
 					Console.SetCursorPosition(StartPoint.X + editPoint.X * SQUARE_WIDTH, StartPoint.Y + editPoint.Y * SQUARE_HEIGHT + j);
