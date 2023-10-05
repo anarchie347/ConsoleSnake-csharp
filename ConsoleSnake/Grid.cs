@@ -244,10 +244,24 @@ namespace ConsoleSnake
 
 		private void RenderEntireSnake(IEnumerable<Point> snakeCoords, Corner facePosition)
 		{
-			Console.BackgroundColor = Utils.GetConsoleColor(Snake.SnakeHeadColour, rand);
-			Point editPoint = snakeCoords.Last();
-			Console.SetCursorPosition(StartPoint.X + editPoint.X * SQUARE_WIDTH, StartPoint.Y + editPoint.Y * SQUARE_HEIGHT);
+			//render from back of snake to frojnt, so that if it overlaps, the frontmost part is shown first
+			Point editPoint;
+            //rest of snake
+            for (int i = snakeCoords.Count() -1; i > -1; i--)
+            {
+                Console.BackgroundColor = Utils.GetConsoleColor(Snake.SnakeBodyColour, rand);
+                editPoint = snakeCoords.ElementAt(i);
+                for (int j = 0; j < SQUARE_HEIGHT; j++)
+                {
+                    Console.SetCursorPosition(StartPoint.X + editPoint.X * SQUARE_WIDTH, StartPoint.Y + editPoint.Y * SQUARE_HEIGHT + j);
+                    Console.WriteLine(SQUARE_LINE_TEXT);
+                }
+            }
+
 			//head
+            Console.BackgroundColor = Utils.GetConsoleColor(Snake.SnakeHeadColour, rand);
+			editPoint = snakeCoords.Last();
+			Console.SetCursorPosition(StartPoint.X + editPoint.X * SQUARE_WIDTH, StartPoint.Y + editPoint.Y * SQUARE_HEIGHT);
 			if (SQUARE_HEIGHT > 1)
 			{
 
@@ -279,18 +293,7 @@ namespace ConsoleSnake
 				else
 					Console.Write(Snake.FACE_TEXT.PadLeft(SQUARE_WIDTH));
 			}
-			//rest of snake
 			
-			for (int i = 0; i < snakeCoords.Count() - 1; i++)
-			{
-                Console.BackgroundColor = Utils.GetConsoleColor(Snake.SnakeBodyColour, rand);
-                editPoint = snakeCoords.ElementAt(i);
-				for (int j = 0; j < SQUARE_HEIGHT; j++)
-				{
-					Console.SetCursorPosition(StartPoint.X + editPoint.X * SQUARE_WIDTH, StartPoint.Y + editPoint.Y * SQUARE_HEIGHT + j);
-					Console.WriteLine(SQUARE_LINE_TEXT);
-				}
-			}
 		}
 
 		private ConsoleColor GetSquareBackgroundColour(Point p)
