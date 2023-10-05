@@ -8,14 +8,18 @@ namespace ConsoleSnake
 
 		private Size GridDimensions;
 
-		public Fruit(Size gridDimensions, IEnumerable<Point> dissallowedPoints)
+		private Colour Colour;
+
+		public Fruit(Size gridDimensions, IEnumerable<Point> dissallowedPoints, Colour colour)
 		{
 			GridDimensions = gridDimensions;
+			Colour = colour;
 			NewLocation(dissallowedPoints);
 		}
-		public Fruit(Size gridDimensions)
+		public Fruit(Size gridDimensions, Colour colour)
 		{
 			GridDimensions = gridDimensions;
+			Colour = colour;
 			NewLocation(Enumerable.Empty<Point>());
 		}
 
@@ -50,7 +54,7 @@ namespace ConsoleSnake
 		}
 		public void OutputFruit(Size squareSize, Point gridStartLocation)
 		{
-			Console.BackgroundColor = ConsoleColor.Red;
+			Console.BackgroundColor = Utils.GetConsoleColor(Colour, new Random());
 			Console.SetCursorPosition(gridStartLocation.X + (squareSize.Width * Location.X), gridStartLocation.Y + (squareSize.Height * Location.Y));
 			Console.Write("/ `\\");
             Console.SetCursorPosition(gridStartLocation.X + (squareSize.Width * Location.X), gridStartLocation.Y + (squareSize.Height * Location.Y) + 1);

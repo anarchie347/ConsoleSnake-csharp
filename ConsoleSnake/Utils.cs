@@ -8,14 +8,9 @@ namespace ConsoleSnake
 {
     internal static class Utils
     {
-        public static bool SetConsoleColourIfStatic(Colour colour)
+        public static ConsoleColor GetConsoleColor(Colour colour, Random r)
         {
-            if ((int)colour < 16)
-            {
-                Console.ForegroundColor = (ConsoleColor)(int)colour;
-                return true;
-            }
-            return false;
+            return (ConsoleColor)((int)colour < 16 ? (int)colour : r.Next(0, 16));
         }
     }
 }

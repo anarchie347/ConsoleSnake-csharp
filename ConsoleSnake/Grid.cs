@@ -37,7 +37,7 @@ namespace ConsoleSnake
 			rand = new Random();
 			for (int i = 0; i < fruitCount; i++)
 			{
-				Fruit[i] = new(dimensions);
+				Fruit[i] = new(dimensions, colours.Fruit);
 			}
 		}
 
@@ -185,7 +185,7 @@ namespace ConsoleSnake
 				}
 			}
 			//head
-			Console.BackgroundColor = GetConsoleColor(Snake.SnakeHeadColour, rand);
+			Console.BackgroundColor = Utils.GetConsoleColor(Snake.SnakeHeadColour, rand);
 			editPoint = snakeCoords.Last();
 			Console.SetCursorPosition(StartPoint.X + editPoint.X * SQUARE_WIDTH, StartPoint.Y + editPoint.Y * SQUARE_HEIGHT);
 			if (SQUARE_HEIGHT > 1)
@@ -232,7 +232,7 @@ namespace ConsoleSnake
 
 			//point behind head
             editPoint = snakeCoords[snakeCoords.Count() - 2];
-            Console.BackgroundColor = GetConsoleColor(Snake.SnakeBodyColour, rand);
+            Console.BackgroundColor = Utils.GetConsoleColor(Snake.SnakeBodyColour, rand);
 			for (int i = 0; i < SQUARE_HEIGHT; i++)
 			{
 				Console.SetCursorPosition(StartPoint.X + editPoint.X * SQUARE_WIDTH, StartPoint.Y + editPoint.Y * SQUARE_HEIGHT + i);
@@ -244,7 +244,7 @@ namespace ConsoleSnake
 
 		private void RenderEntireSnake(IEnumerable<Point> snakeCoords, Corner facePosition)
 		{
-			Console.BackgroundColor = GetConsoleColor(Snake.SnakeHeadColour, rand);
+			Console.BackgroundColor = Utils.GetConsoleColor(Snake.SnakeHeadColour, rand);
 			Point editPoint = snakeCoords.Last();
 			Console.SetCursorPosition(StartPoint.X + editPoint.X * SQUARE_WIDTH, StartPoint.Y + editPoint.Y * SQUARE_HEIGHT);
 			//head
@@ -283,7 +283,7 @@ namespace ConsoleSnake
 			
 			for (int i = 0; i < snakeCoords.Count() - 1; i++)
 			{
-                Console.BackgroundColor = GetConsoleColor(Snake.SnakeBodyColour, rand);
+                Console.BackgroundColor = Utils.GetConsoleColor(Snake.SnakeBodyColour, rand);
                 editPoint = snakeCoords.ElementAt(i);
 				for (int j = 0; j < SQUARE_HEIGHT; j++)
 				{
@@ -299,12 +299,7 @@ namespace ConsoleSnake
         }
 		private ConsoleColor GetSquareBackgroundColour(int x, int y)
 		{
-            return (x % 2 == y % 2) ? GetConsoleColor(Colours.Background1, rand) : GetConsoleColor(Colours.Background2, rand);
+            return (x % 2 == y % 2) ? Utils.GetConsoleColor(Colours.Background1, rand) : Utils.GetConsoleColor(Colours.Background2, rand);
         }
-
-		private static ConsoleColor GetConsoleColor(Colour colour, Random r)
-		{
-			return (ConsoleColor)((int)colour < 16 ? (int)colour : r.Next(0, 16));
-		}
 	}
 }

@@ -57,7 +57,7 @@ namespace ConsoleSnake
 				SnakeBody = Colour.Rainbow,
 				Background1 = Colour.Black,
 				Background2 = Colour.Green,
-				Fruit = Colour.Magenta
+				Fruit = Colour.Rainbow
 			};
 		}
 		private static Options GetOptions(string[] args)
