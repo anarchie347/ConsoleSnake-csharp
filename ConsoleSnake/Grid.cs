@@ -120,7 +120,8 @@ namespace ConsoleSnake
 
 		public void ChangeSnakeDirection(Direction newDirection, bool muted)
 		{
-			Snake.ChangeDirection(newDirection, muted);
+			if (!IsSnakeFrozen)
+				Snake.ChangeDirection(newDirection, muted);
 		}
 
 		public void MoveSnakeOnce()
